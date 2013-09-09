@@ -18,9 +18,13 @@
 		6329800B17DE624200EE3B7A /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6329800A17DE624200EE3B7A /* Default@2x.png */; };
 		6329800D17DE624200EE3B7A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6329800C17DE624200EE3B7A /* Default-568h@2x.png */; };
 		6329801017DE624200EE3B7A /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6329800E17DE624200EE3B7A /* MainStoryboard.storyboard */; };
-		6329801317DE624200EE3B7A /* TagTheTram.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6329801117DE624200EE3B7A /* TagTheTram.xcdatamodeld */; };
-		6329801617DE624200EE3B7A /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329801517DE624200EE3B7A /* MasterViewController.m */; };
-		6329801917DE624200EE3B7A /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329801817DE624200EE3B7A /* DetailViewController.m */; };
+		6329802717DE68BC00EE3B7A /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329802417DE68BC00EE3B7A /* DetailViewController.m */; };
+		6329802817DE68BC00EE3B7A /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329802617DE68BC00EE3B7A /* MasterViewController.m */; };
+		6329802C17DE68D600EE3B7A /* TagTheTram.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6329802A17DE68D600EE3B7A /* TagTheTram.xcdatamodeld */; };
+		6329802F17DE69A000EE3B7A /* Station.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329802E17DE69A000EE3B7A /* Station.m */; };
+		6329803217DE69A000EE3B7A /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329803117DE69A000EE3B7A /* Photo.m */; };
+		6329803717DE6BF600EE3B7A /* StationWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329803617DE6BF600EE3B7A /* StationWebService.m */; };
+		6329803B17DE7E5D00EE3B7A /* Station+CRUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329803A17DE7E5D00EE3B7A /* Station+CRUD.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,11 +43,19 @@
 		6329800A17DE624200EE3B7A /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		6329800C17DE624200EE3B7A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		6329800F17DE624200EE3B7A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
-		6329801217DE624200EE3B7A /* TagTheTram.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TagTheTram.xcdatamodel; sourceTree = "<group>"; };
-		6329801417DE624200EE3B7A /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
-		6329801517DE624200EE3B7A /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
-		6329801717DE624200EE3B7A /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
-		6329801817DE624200EE3B7A /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		6329802317DE68BC00EE3B7A /* DetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
+		6329802417DE68BC00EE3B7A /* DetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
+		6329802517DE68BC00EE3B7A /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
+		6329802617DE68BC00EE3B7A /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
+		6329802B17DE68D600EE3B7A /* TagTheTram.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TagTheTram.xcdatamodel; sourceTree = "<group>"; };
+		6329802D17DE69A000EE3B7A /* Station.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Station.h; sourceTree = "<group>"; };
+		6329802E17DE69A000EE3B7A /* Station.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Station.m; sourceTree = "<group>"; };
+		6329803017DE69A000EE3B7A /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
+		6329803117DE69A000EE3B7A /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
+		6329803517DE6BF600EE3B7A /* StationWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StationWebService.h; sourceTree = "<group>"; };
+		6329803617DE6BF600EE3B7A /* StationWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StationWebService.m; sourceTree = "<group>"; };
+		6329803917DE7E5D00EE3B7A /* Station+CRUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Station+CRUD.h"; sourceTree = "<group>"; };
+		6329803A17DE7E5D00EE3B7A /* Station+CRUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Station+CRUD.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,12 +106,9 @@
 			children = (
 				6329800517DE624200EE3B7A /* AppDelegate.h */,
 				6329800617DE624200EE3B7A /* AppDelegate.m */,
+				6329802217DE68BC00EE3B7A /* Controllers */,
 				6329800E17DE624200EE3B7A /* MainStoryboard.storyboard */,
-				6329801417DE624200EE3B7A /* MasterViewController.h */,
-				6329801517DE624200EE3B7A /* MasterViewController.m */,
-				6329801717DE624200EE3B7A /* DetailViewController.h */,
-				6329801817DE624200EE3B7A /* DetailViewController.m */,
-				6329801117DE624200EE3B7A /* TagTheTram.xcdatamodeld */,
+				6329802917DE68D600EE3B7A /* Models */,
 				63297FFD17DE624200EE3B7A /* Supporting Files */,
 			);
 			path = TagTheTram;
@@ -117,6 +126,49 @@
 				6329800C17DE624200EE3B7A /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6329802217DE68BC00EE3B7A /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				6329802517DE68BC00EE3B7A /* MasterViewController.h */,
+				6329802617DE68BC00EE3B7A /* MasterViewController.m */,
+				6329802317DE68BC00EE3B7A /* DetailViewController.h */,
+				6329802417DE68BC00EE3B7A /* DetailViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		6329802917DE68D600EE3B7A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				6329802A17DE68D600EE3B7A /* TagTheTram.xcdatamodeld */,
+				6329802D17DE69A000EE3B7A /* Station.h */,
+				6329802E17DE69A000EE3B7A /* Station.m */,
+				6329803017DE69A000EE3B7A /* Photo.h */,
+				6329803117DE69A000EE3B7A /* Photo.m */,
+				6329803317DE69A400EE3B7A /* Additions */,
+				6329803817DE6BFC00EE3B7A /* WebService */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		6329803317DE69A400EE3B7A /* Additions */ = {
+			isa = PBXGroup;
+			children = (
+				6329803917DE7E5D00EE3B7A /* Station+CRUD.h */,
+				6329803A17DE7E5D00EE3B7A /* Station+CRUD.m */,
+			);
+			name = Additions;
+			sourceTree = "<group>";
+		};
+		6329803817DE6BFC00EE3B7A /* WebService */ = {
+			isa = PBXGroup;
+			children = (
+				6329803517DE6BF600EE3B7A /* StationWebService.h */,
+				6329803617DE6BF600EE3B7A /* StationWebService.m */,
+			);
+			name = WebService;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,9 +239,13 @@
 			files = (
 				6329800317DE624200EE3B7A /* main.m in Sources */,
 				6329800717DE624200EE3B7A /* AppDelegate.m in Sources */,
-				6329801317DE624200EE3B7A /* TagTheTram.xcdatamodeld in Sources */,
-				6329801617DE624200EE3B7A /* MasterViewController.m in Sources */,
-				6329801917DE624200EE3B7A /* DetailViewController.m in Sources */,
+				6329802717DE68BC00EE3B7A /* DetailViewController.m in Sources */,
+				6329802817DE68BC00EE3B7A /* MasterViewController.m in Sources */,
+				6329802C17DE68D600EE3B7A /* TagTheTram.xcdatamodeld in Sources */,
+				6329802F17DE69A000EE3B7A /* Station.m in Sources */,
+				6329803217DE69A000EE3B7A /* Photo.m in Sources */,
+				6329803717DE6BF600EE3B7A /* StationWebService.m in Sources */,
+				6329803B17DE7E5D00EE3B7A /* Station+CRUD.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,7 +295,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -262,7 +318,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -314,12 +370,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		6329801117DE624200EE3B7A /* TagTheTram.xcdatamodeld */ = {
+		6329802A17DE68D600EE3B7A /* TagTheTram.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				6329801217DE624200EE3B7A /* TagTheTram.xcdatamodel */,
+				6329802B17DE68D600EE3B7A /* TagTheTram.xcdatamodel */,
 			);
-			currentVersion = 6329801217DE624200EE3B7A /* TagTheTram.xcdatamodel */;
+			currentVersion = 6329802B17DE68D600EE3B7A /* TagTheTram.xcdatamodel */;
 			path = TagTheTram.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
