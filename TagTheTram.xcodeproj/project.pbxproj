@@ -25,6 +25,7 @@
 		6329803717DE6BF600EE3B7A /* StationWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329803617DE6BF600EE3B7A /* StationWebService.m */; };
 		6329803B17DE7E5D00EE3B7A /* Station+CRUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329803A17DE7E5D00EE3B7A /* Station+CRUD.m */; };
 		6340925417DFC60D00899368 /* PhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6340925317DFC60D00899368 /* PhotosViewController.m */; };
+		6340925A17DFCFDB00899368 /* CustomNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6340925917DFCFDB00899368 /* CustomNavigationController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,8 @@
 		6329803917DE7E5D00EE3B7A /* Station+CRUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Station+CRUD.h"; sourceTree = "<group>"; };
 		6329803A17DE7E5D00EE3B7A /* Station+CRUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Station+CRUD.m"; sourceTree = "<group>"; };
 		6340925317DFC60D00899368 /* PhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotosViewController.m; sourceTree = "<group>"; };
+		6340925817DFCFDB00899368 /* CustomNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationController.h; sourceTree = "<group>"; };
+		6340925917DFCFDB00899368 /* CustomNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +113,7 @@
 				6329800E17DE624200EE3B7A /* MainStoryboard.storyboard */,
 				6329802917DE68D600EE3B7A /* Models */,
 				63297FFD17DE624200EE3B7A /* Supporting Files */,
+				6340925717DFCFDB00899368 /* External Files */,
 			);
 			path = TagTheTram;
 			sourceTree = "<group>";
@@ -169,6 +173,15 @@
 				6329803617DE6BF600EE3B7A /* StationWebService.m */,
 			);
 			name = WebService;
+			sourceTree = "<group>";
+		};
+		6340925717DFCFDB00899368 /* External Files */ = {
+			isa = PBXGroup;
+			children = (
+				6340925817DFCFDB00899368 /* CustomNavigationController.h */,
+				6340925917DFCFDB00899368 /* CustomNavigationController.m */,
+			);
+			path = "External Files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -246,6 +259,7 @@
 				6329803717DE6BF600EE3B7A /* StationWebService.m in Sources */,
 				6329803B17DE7E5D00EE3B7A /* Station+CRUD.m in Sources */,
 				6340925417DFC60D00899368 /* PhotosViewController.m in Sources */,
+				6340925A17DFCFDB00899368 /* CustomNavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

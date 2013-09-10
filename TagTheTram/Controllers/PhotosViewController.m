@@ -8,7 +8,7 @@
 
 #import "PhotosViewController.h"
 
-@interface PhotosViewController ()
+@interface PhotosViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 - (void)configureView;
 @end
 
@@ -26,6 +26,16 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.    
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+	return UIInterfaceOrientationIsPortrait(interfaceOrientation);
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
 }
 
 - (void)configureView
@@ -61,7 +71,8 @@
 
 - (IBAction)addPhotoAction:(UIBarButtonItem *)sender
 {
-    // FIXME
+    [self startCameraControllerFromViewController:self
+                                    usingDelegate:self];
 }
 
 
@@ -231,6 +242,32 @@
 {
     NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = [[object valueForKey:@"name"] description];
+}
+
+
+#pragma mark - Camera methods
+
+- (BOOL) startCameraControllerFromViewController:(UIViewController*) controller
+                                   usingDelegate:(id <UIImagePickerControllerDelegate,
+                                                  UINavigationControllerDelegate>) delegate
+{
+    if (([UIImagePickerController isSourceTypeAvailable:
+          UIImagePickerControllerSourceTypeCamera] == NO)
+        || (delegate == nil)
+        || (controller == nil)) {
+        ALog(@"Carema is unavailable");
+        return NO;
+    }
+    
+    UIImagePickerController *cameraUI = [[UIImagePickerController alloc] init];
+    cameraUI.sourceType = UIImagePickerControllerSourceTypeCamera;
+    
+    cameraUI.allowsEditing = YES;
+    cameraUI.delegate = delegate;
+    
+    [controller presentModalViewController:cameraUI animated:YES];
+    
+    return YES;
 }
 
 @end
