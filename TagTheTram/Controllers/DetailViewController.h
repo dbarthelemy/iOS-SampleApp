@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreData/CoreData.h>
+#import "Station.h"
 
-@interface DetailViewController : UIViewController
+@interface DetailViewController : UITableViewController <NSFetchedResultsControllerDelegate>
+@property (retain, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (retain, nonatomic) Station *theStation;
 
-@property (retain, nonatomic) id detailItem;
-
-@property (retain, nonatomic) IBOutlet UILabel *detailDescriptionLabel;
+@property (retain, nonatomic) NSFetchedResultsController *fetchedResultsController;
 
 @end
