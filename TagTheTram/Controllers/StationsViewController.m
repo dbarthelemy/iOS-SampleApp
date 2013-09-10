@@ -1,5 +1,5 @@
 //
-//  MasterViewController.m
+//  StationsViewController.m
 //  TagTheTram
 //
 //  Created by David Barthelemy on 09/09/13.

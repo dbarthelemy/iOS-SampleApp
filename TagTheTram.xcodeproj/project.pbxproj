@@ -18,13 +18,13 @@
 		6329800B17DE624200EE3B7A /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6329800A17DE624200EE3B7A /* Default@2x.png */; };
 		6329800D17DE624200EE3B7A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6329800C17DE624200EE3B7A /* Default-568h@2x.png */; };
 		6329801017DE624200EE3B7A /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6329800E17DE624200EE3B7A /* MainStoryboard.storyboard */; };
-		6329802717DE68BC00EE3B7A /* PhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329802417DE68BC00EE3B7A /* PhotosViewController.m */; };
 		6329802817DE68BC00EE3B7A /* StationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329802617DE68BC00EE3B7A /* StationsViewController.m */; };
 		6329802C17DE68D600EE3B7A /* TagTheTram.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6329802A17DE68D600EE3B7A /* TagTheTram.xcdatamodeld */; };
 		6329802F17DE69A000EE3B7A /* Station.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329802E17DE69A000EE3B7A /* Station.m */; };
 		6329803217DE69A000EE3B7A /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329803117DE69A000EE3B7A /* Photo.m */; };
 		6329803717DE6BF600EE3B7A /* StationWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329803617DE6BF600EE3B7A /* StationWebService.m */; };
 		6329803B17DE7E5D00EE3B7A /* Station+CRUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329803A17DE7E5D00EE3B7A /* Station+CRUD.m */; };
+		6340925417DFC60D00899368 /* PhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6340925317DFC60D00899368 /* PhotosViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,7 +44,6 @@
 		6329800C17DE624200EE3B7A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		6329800F17DE624200EE3B7A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		6329802317DE68BC00EE3B7A /* PhotosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotosViewController.h; sourceTree = "<group>"; };
-		6329802417DE68BC00EE3B7A /* PhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotosViewController.m; sourceTree = "<group>"; };
 		6329802517DE68BC00EE3B7A /* StationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StationsViewController.h; sourceTree = "<group>"; };
 		6329802617DE68BC00EE3B7A /* StationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StationsViewController.m; sourceTree = "<group>"; };
 		6329802B17DE68D600EE3B7A /* TagTheTram.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TagTheTram.xcdatamodel; sourceTree = "<group>"; };
@@ -56,6 +55,7 @@
 		6329803617DE6BF600EE3B7A /* StationWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StationWebService.m; sourceTree = "<group>"; };
 		6329803917DE7E5D00EE3B7A /* Station+CRUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Station+CRUD.h"; sourceTree = "<group>"; };
 		6329803A17DE7E5D00EE3B7A /* Station+CRUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Station+CRUD.m"; sourceTree = "<group>"; };
+		6340925317DFC60D00899368 /* PhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotosViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,7 +134,7 @@
 				6329802517DE68BC00EE3B7A /* StationsViewController.h */,
 				6329802617DE68BC00EE3B7A /* StationsViewController.m */,
 				6329802317DE68BC00EE3B7A /* PhotosViewController.h */,
-				6329802417DE68BC00EE3B7A /* PhotosViewController.m */,
+				6340925317DFC60D00899368 /* PhotosViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -239,13 +239,13 @@
 			files = (
 				6329800317DE624200EE3B7A /* main.m in Sources */,
 				6329800717DE624200EE3B7A /* AppDelegate.m in Sources */,
-				6329802717DE68BC00EE3B7A /* PhotosViewController.m in Sources */,
 				6329802817DE68BC00EE3B7A /* StationsViewController.m in Sources */,
 				6329802C17DE68D600EE3B7A /* TagTheTram.xcdatamodeld in Sources */,
 				6329802F17DE69A000EE3B7A /* Station.m in Sources */,
 				6329803217DE69A000EE3B7A /* Photo.m in Sources */,
 				6329803717DE6BF600EE3B7A /* StationWebService.m in Sources */,
 				6329803B17DE7E5D00EE3B7A /* Station+CRUD.m in Sources */,
+				6340925417DFC60D00899368 /* PhotosViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

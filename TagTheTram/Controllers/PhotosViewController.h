@@ -1,5 +1,5 @@
 //
-//  DetailViewController.h
+//  PhotosViewController.h
 //  TagTheTram
 //
 //  Created by David Barthelemy on 09/09/13.

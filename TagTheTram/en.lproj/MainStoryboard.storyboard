@@ -97,7 +97,13 @@
                             <outlet property="delegate" destination="5cc-08-Vbj" id="62x-7V-Y8l"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Station.name" id="Zax-rw-oI9"/>
+                    <navigationItem key="navigationItem" title="Station.name" id="Zax-rw-oI9">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="NW9-NH-y3P">
+                            <connections>
+                                <action selector="addPhotoAction:" destination="5cc-08-Vbj" id="neN-Zv-AuJ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TIw-DL-i8J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
