@@ -75,71 +75,74 @@ static StationWebService *_sharedInstance = nil;
     }
     else {
         self.isRunning = YES;
-        NSURL *restApiUrl = [NSURL URLWithString:@"http://modulaweb.fr/apitam/?request=getStopsList&fullInfos=1"];
-        NSError *restApiError = nil;
 
-        // FIXME : GCD
-        NSData *restApiData = [NSData dataWithContentsOfURL:restApiUrl options:0 error:&restApiError];
-        
-        if (restApiData) {
-            BOOL isValidFormat = NO;
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSURL *restApiUrl = [NSURL URLWithString:@"http://modulaweb.fr/apitam/?request=getStopsList&fullInfos=1"];
+            NSError *restApiError = nil;
             
-            NSError *parseError = nil;
-            id resultObject = [NSJSONSerialization JSONObjectWithData:restApiData options:0 error:&parseError];
-            if (resultObject) {
-                if ([resultObject isKindOfClass:[NSDictionary class]]) {
-                    NSDictionary *resultDictionary = (NSDictionary *)resultObject;
-                    if ([[resultDictionary objectForKey:@"status"] isEqualToString:@"ok"]) {
-                        //
-                        // Status is correct
-                        //
-                        id responseObject = [resultDictionary objectForKey:@"response"];
-                        if ([responseObject isKindOfClass:[NSDictionary class]]) {
-                            NSDictionary *responseDictionary = (NSDictionary *)responseObject;
-                            if ([responseDictionary count]) {
-                                //
-                                // Response is not empty
-                                //
-                                NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
-                                [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-                                
-                                for (NSString *eachKey in responseDictionary) {
-                                    id eachGroupObject = [responseDictionary objectForKey:eachKey];
-                                    if ([eachGroupObject isKindOfClass:[NSArray class]]) {
-                                        NSArray *eachGroupArray = (NSArray *)eachGroupObject;
-                                        if ([eachGroupArray count]) {
-                                            //
-                                            // the station group is not empty
-                                            //
-                                            for (id eachStationObject in eachGroupArray) {
-                                                if ([eachStationObject isKindOfClass:[NSDictionary class]]) {
-                                                    NSDictionary *eachStationDictionary = (NSDictionary *)eachStationObject;
-                                                    if ([eachStationDictionary count]) {
-                                                        id eachStationDescriptionObject = [eachStationDictionary valueForKey:[eachStationDictionary allKeys][0]];
-                                                        if ([eachStationDescriptionObject isKindOfClass:[NSDictionary class]]) {
-                                                            //
-                                                            // Retrieve a station
-                                                            //
-                                                            NSDictionary *eachStationDescriptionDictionary = (NSDictionary *)eachStationDescriptionObject;
-                                                            NSString *eachId = [eachStationDescriptionDictionary objectForKey:@"id"];
-                                                            NSString *eachName = [eachStationDescriptionDictionary objectForKey:@"name"];
-                                                            NSString *eachLatitudeStr = [eachStationDescriptionDictionary objectForKey:@"latitude"];
-                                                            NSString *eachLongitudeStr = [eachStationDescriptionDictionary objectForKey:@"longitude"];
-                                                            NSString *theTown = [[eachStationDescriptionDictionary objectForKey:@"town"] uppercaseString];
-                                                            
-                                                            NSNumber *eachLatitude = [numberFormatter numberFromString:eachLatitudeStr];
-                                                            NSNumber *eachLongitude = [numberFormatter numberFromString:eachLongitudeStr];
-                                                            
-                                                            if (([eachId length] > 0) &&
-                                                                ([eachName length] > 0) &&
-                                                                ([theTown isEqualToString:@"MONTPELLIER"])) {
-                                                                isValidFormat = YES; // We consider valid format if at least one entry is properly decoded.
-
-                                                                // FIXME : Create the NSManagedObject on the Main Thread
-                                                                [Station stationWithId:eachId
-                                                                                  name:eachName
-                                                                              latitude:eachLatitude
-                                                                             longitude:eachLongitude];
+            NSData *restApiData = [NSData dataWithContentsOfURL:restApiUrl options:0 error:&restApiError];
+            
+            if (restApiData) {
+                BOOL isValidFormat = NO;
+                
+                NSError *parseError = nil;
+                id resultObject = [NSJSONSerialization JSONObjectWithData:restApiData options:0 error:&parseError];
+                if (resultObject) {
+                    if ([resultObject isKindOfClass:[NSDictionary class]]) {
+                        NSDictionary *resultDictionary = (NSDictionary *)resultObject;
+                        if ([[resultDictionary objectForKey:@"status"] isEqualToString:@"ok"]) {
+                            //
+                            // Status is correct
+                            //
+                            id responseObject = [resultDictionary objectForKey:@"response"];
+                            if ([responseObject isKindOfClass:[NSDictionary class]]) {
+                                NSDictionary *responseDictionary = (NSDictionary *)responseObject;
+                                if ([responseDictionary count]) {
+                                    //
+                                    // Response is not empty
+                                    //
+                                    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+                                    [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+                                    
+                                    for (NSString *eachKey in responseDictionary) {
+                                        id eachGroupObject = [responseDictionary objectForKey:eachKey];
+                                        if ([eachGroupObject isKindOfClass:[NSArray class]]) {
+                                            NSArray *eachGroupArray = (NSArray *)eachGroupObject;
+                                            if ([eachGroupArray count]) {
+                                                //
+                                                // the station group is not empty
+                                                //
+                                                for (id eachStationObject in eachGroupArray) {
+                                                    if ([eachStationObject isKindOfClass:[NSDictionary class]]) {
+                                                        NSDictionary *eachStationDictionary = (NSDictionary *)eachStationObject;
+                                                        if ([eachStationDictionary count]) {
+                                                            id eachStationDescriptionObject = [eachStationDictionary valueForKey:[eachStationDictionary allKeys][0]];
+                                                            if ([eachStationDescriptionObject isKindOfClass:[NSDictionary class]]) {
+                                                                //
+                                                                // Retrieve a station
+                                                                //
+                                                                NSDictionary *eachStationDescriptionDictionary = (NSDictionary *)eachStationDescriptionObject;
+                                                                NSString *eachId = [eachStationDescriptionDictionary objectForKey:@"id"];
+                                                                NSString *eachName = [eachStationDescriptionDictionary objectForKey:@"name"];
+                                                                NSString *eachLatitudeStr = [eachStationDescriptionDictionary objectForKey:@"latitude"];
+                                                                NSString *eachLongitudeStr = [eachStationDescriptionDictionary objectForKey:@"longitude"];
+                                                                NSString *theTown = [[eachStationDescriptionDictionary objectForKey:@"town"] uppercaseString];
+                                                                
+                                                                NSNumber *eachLatitude = [numberFormatter numberFromString:eachLatitudeStr];
+                                                                NSNumber *eachLongitude = [numberFormatter numberFromString:eachLongitudeStr];
+                                                                
+                                                                if (([eachId length] > 0) &&
+                                                                    ([eachName length] > 0) &&
+                                                                    ([theTown isEqualToString:@"MONTPELLIER"])) {
+                                                                    isValidFormat = YES; // We consider valid format if at least one entry is properly decoded.
+                                                                    
+                                                                    dispatch_async(dispatch_get_main_queue() , ^{
+                                                                        [Station stationWithId:eachId
+                                                                                          name:eachName
+                                                                                      latitude:eachLatitude
+                                                                                     longitude:eachLongitude];
+                                                                    });
+                                                                }
                                                             }
                                                         }
                                                     }
@@ -152,34 +155,36 @@ static StationWebService *_sharedInstance = nil;
                         }
                     }
                 }
-            }
-            
-            if ((isValidFormat == NO) || (parseError)) {
-                NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"JSON Parsing error" forKey:NSLocalizedDescriptionKey];
-                NSError *customError = [NSError errorWithDomain:kWebServiceAPIErrorDomain code:JSONParsingErrorCode userInfo:userInfo];
-
-                if ([self.delegate respondsToSelector:@selector(fetchStationsDidFailedWithError:)]) {
-                    // FIXME : on the Main Thread
-                    [self.delegate fetchStationsDidFailedWithError:customError];
+                
+                if ((isValidFormat == NO) || (parseError)) {
+                    NSDictionary *userInfo = [NSDictionary dictionaryWithObject:@"JSON Parsing error" forKey:NSLocalizedDescriptionKey];
+                    NSError *customError = [NSError errorWithDomain:kWebServiceAPIErrorDomain code:JSONParsingErrorCode userInfo:userInfo];
+                    
+                    if ([self.delegate respondsToSelector:@selector(fetchStationsDidFailedWithError:)]) {
+                        dispatch_async(dispatch_get_main_queue() , ^{
+                            [self.delegate fetchStationsDidFailedWithError:customError];
+                        });
+                    }
+                }
+                else {
+                    if ([self.delegate respondsToSelector:@selector(fetchStationsDidSucceed)]) {
+                        dispatch_async(dispatch_get_main_queue() , ^{
+                            [self.delegate fetchStationsDidSucceed];
+                        });
+                    }
                 }
             }
             else {
-                if ([self.delegate respondsToSelector:@selector(fetchStationsDidSucceed)]) {
-                    // FIXME : on the Main Thread
-                    [self.delegate fetchStationsDidSucceed];
+                if (restApiError) {
+                    if ([self.delegate respondsToSelector:@selector(fetchStationsDidFailedWithError:)]) {
+                        dispatch_async(dispatch_get_main_queue() , ^{
+                            [self.delegate fetchStationsDidFailedWithError:restApiError];
+                        });
+                    }
                 }
             }
-        }
-        else {
-            if (restApiError) {
-                if ([self.delegate respondsToSelector:@selector(fetchStationsDidFailedWithError:)]) {
-                    // FIXME : on the Main Thread
-                    [self.delegate fetchStationsDidFailedWithError:restApiError];
-                }
-            }
-        }
-        self.isRunning = NO;
-        // FIXME : GCD
+            self.isRunning = NO;
+        });
     }
     return self.isRunning;
 }
