@@ -62,6 +62,14 @@ static StationWebService *_sharedInstance = nil;
 
 - (BOOL)fetchStations
 {
+    /*
+     * Given the low complexity of the Web Service, here is a straitforward implementation which give good performances (e.g. no need for a secondary 
+     *  NSMAnagedObjectContext and associated merge as all CRUD operations are executed on the main thread) and responsiveness (thanks to GCD usage)
+     *  without being too much complex.
+     *
+     * For more advanced features (Authentication, Security, Download Progress) a NSURLConnection would be required in place of this basic approach.
+     * I would be please to share with you my coding techniques for such use-cases.
+     */
     if (self.isRunning) {
         return YES;
     }
@@ -92,6 +100,9 @@ static StationWebService *_sharedInstance = nil;
                                 //
                                 // Response is not empty
                                 //
+                                NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+                                [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+                                
                                 for (NSString *eachKey in responseDictionary) {
                                     id eachGroupObject = [responseDictionary objectForKey:eachKey];
                                     if ([eachGroupObject isKindOfClass:[NSArray class]]) {
@@ -112,12 +123,16 @@ static StationWebService *_sharedInstance = nil;
                                                             NSDictionary *eachStationDescriptionDictionary = (NSDictionary *)eachStationDescriptionObject;
                                                             NSString *eachId = [eachStationDescriptionDictionary objectForKey:@"id"];
                                                             NSString *eachName = [eachStationDescriptionDictionary objectForKey:@"name"];
-                                                            NSNumber *eachLatitude = [eachStationDescriptionDictionary objectForKey:@"latitude"];
-                                                            NSNumber *eachLongitude = [eachStationDescriptionDictionary objectForKey:@"longitude"];
+                                                            NSString *eachLatitudeStr = [eachStationDescriptionDictionary objectForKey:@"latitude"];
+                                                            NSString *eachLongitudeStr = [eachStationDescriptionDictionary objectForKey:@"longitude"];
+                                                            NSString *theTown = [[eachStationDescriptionDictionary objectForKey:@"town"] uppercaseString];
                                                             
-                                                            // FIXME : Convert NSString to NSNumber
+                                                            NSNumber *eachLatitude = [numberFormatter numberFromString:eachLatitudeStr];
+                                                            NSNumber *eachLongitude = [numberFormatter numberFromString:eachLongitudeStr];
                                                             
-                                                            if (([eachId length] > 0) && ([eachName length] > 0)) {
+                                                            if (([eachId length] > 0) &&
+                                                                ([eachName length] > 0) &&
+                                                                ([theTown isEqualToString:@"MONTPELLIER"])) {
                                                                 isValidFormat = YES; // We consider valid format if at least one entry is properly decoded.
 
                                                                 // FIXME : Create the NSManagedObject on the Main Thread
