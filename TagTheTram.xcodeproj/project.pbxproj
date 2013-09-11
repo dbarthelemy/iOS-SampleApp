@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		631E310D17E03F0700446EF7 /* PhotoPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 631E310C17E03F0700446EF7 /* PhotoPreviewViewController.m */; };
 		63297FF517DE624200EE3B7A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63297FF417DE624200EE3B7A /* UIKit.framework */; };
 		63297FF717DE624200EE3B7A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63297FF617DE624200EE3B7A /* Foundation.framework */; };
 		63297FF917DE624200EE3B7A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63297FF817DE624200EE3B7A /* CoreGraphics.framework */; };
@@ -26,9 +27,12 @@
 		6329803B17DE7E5D00EE3B7A /* Station+CRUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329803A17DE7E5D00EE3B7A /* Station+CRUD.m */; };
 		6340925417DFC60D00899368 /* PhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6340925317DFC60D00899368 /* PhotosViewController.m */; };
 		6340925A17DFCFDB00899368 /* CustomNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6340925917DFCFDB00899368 /* CustomNavigationController.m */; };
+		635E3F9B17E089B700DD4466 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 635E3F9A17E089B700DD4466 /* MobileCoreServices.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		631E310B17E03F0700446EF7 /* PhotoPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoPreviewViewController.h; sourceTree = "<group>"; };
+		631E310C17E03F0700446EF7 /* PhotoPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoPreviewViewController.m; sourceTree = "<group>"; };
 		63297FF117DE624200EE3B7A /* TagTheTram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TagTheTram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63297FF417DE624200EE3B7A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		63297FF617DE624200EE3B7A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -59,6 +63,7 @@
 		6340925317DFC60D00899368 /* PhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotosViewController.m; sourceTree = "<group>"; };
 		6340925817DFCFDB00899368 /* CustomNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationController.h; sourceTree = "<group>"; };
 		6340925917DFCFDB00899368 /* CustomNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationController.m; sourceTree = "<group>"; };
+		635E3F9A17E089B700DD4466 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				635E3F9B17E089B700DD4466 /* MobileCoreServices.framework in Frameworks */,
 				63297FF517DE624200EE3B7A /* UIKit.framework in Frameworks */,
 				63297FF717DE624200EE3B7A /* Foundation.framework in Frameworks */,
 				63297FF917DE624200EE3B7A /* CoreGraphics.framework in Frameworks */,
@@ -96,6 +102,7 @@
 		63297FF317DE624200EE3B7A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				635E3F9A17E089B700DD4466 /* MobileCoreServices.framework */,
 				63297FF417DE624200EE3B7A /* UIKit.framework */,
 				63297FF617DE624200EE3B7A /* Foundation.framework */,
 				63297FF817DE624200EE3B7A /* CoreGraphics.framework */,
@@ -139,6 +146,8 @@
 				6329802617DE68BC00EE3B7A /* StationsViewController.m */,
 				6329802317DE68BC00EE3B7A /* PhotosViewController.h */,
 				6340925317DFC60D00899368 /* PhotosViewController.m */,
+				631E310B17E03F0700446EF7 /* PhotoPreviewViewController.h */,
+				631E310C17E03F0700446EF7 /* PhotoPreviewViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -260,6 +269,7 @@
 				6329803B17DE7E5D00EE3B7A /* Station+CRUD.m in Sources */,
 				6340925417DFC60D00899368 /* PhotosViewController.m in Sources */,
 				6340925A17DFCFDB00899368 /* CustomNavigationController.m in Sources */,
+				631E310D17E03F0700446EF7 /* PhotoPreviewViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,6 +7,9 @@
 //
 
 #import "PhotosViewController.h"
+#import <MobileCoreServices/MobileCoreServices.h>
+#import "PhotoPreviewViewController.h"
+#import "Photo.h"
 
 @interface PhotosViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 - (void)configureView;
@@ -130,12 +133,9 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"showPhoto"]) {
-        // FIXME
-        /*
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSManagedObject *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-        [[segue destinationViewController] setDetailItem:object];
-         */
+        Photo *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+        [[segue destinationViewController] setThePhoto:object];
     }
 }
 
@@ -268,6 +268,75 @@
     [controller presentModalViewController:cameraUI animated:YES];
     
     return YES;
+}
+
+
+#pragma mark - UIImagePickerControllerDelegate methods
+
+// For responding to the user tapping Cancel.
+- (void) imagePickerControllerDidCancel: (UIImagePickerController *) picker
+{
+    [[picker presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+    [picker release];
+}
+
+// For responding to the user accepting a newly-captured picture
+- (void) imagePickerController: (UIImagePickerController *) picker
+ didFinishPickingMediaWithInfo: (NSDictionary *) info
+{
+    NSString *mediaType = [info objectForKey: UIImagePickerControllerMediaType];
+    UIImage *originalImage, *editedImage, *imageToSave;
+    
+    // Handle a still image capture
+    if (CFStringCompare ((CFStringRef) mediaType, kUTTypeImage, 0)
+        == kCFCompareEqualTo) {
+        
+        editedImage = (UIImage *)[info objectForKey:UIImagePickerControllerEditedImage];
+        originalImage = (UIImage *)[info objectForKey:UIImagePickerControllerOriginalImage];
+        
+        if (editedImage) {
+            // Original size
+            CGSize originalImageSize = originalImage.size;
+            CGRect originalImageRect = CGRectMake(0.0, 0.0, originalImageSize.width, originalImageSize.height);
+            
+            // Edited origin and size
+            CGRect editedImageRect = [(NSValue *)[info objectForKey:UIImagePickerControllerCropRect] CGRectValue];
+            
+            // Check the edited size
+            if (!CGRectContainsRect(editedImageRect, originalImageRect)) {
+                imageToSave = editedImage;
+            }
+            else {
+                imageToSave = originalImage;
+            }
+        }
+        else {
+            imageToSave = originalImage;
+        }
+        
+        if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
+            // Save the new image (original or edited) to the Camera Roll
+            UIImageWriteToSavedPhotosAlbum (imageToSave, nil, nil , nil);
+        }
+/*
+        // Save in App Sandbox during the upload process
+        NSURL *savedImageUrl = [[UploadManager sharedManager] saveImage:scaledImage forUser:self.currentUser]; // FIXME
+        
+        // Notify the user about the error
+        if (!savedImageUrl) {
+            UIAlertView *saveAlert = [[UIAlertView alloc] initWithTitle:@"Erreur"
+                                                                message:@"Sauvegarde impossible"
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"Ok"
+                                                      otherButtonTitles:nil];
+            [saveAlert show];
+            [saveAlert release];
+        }
+ */
+    }
+        
+    [[picker presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+    [picker release];
 }
 
 @end
