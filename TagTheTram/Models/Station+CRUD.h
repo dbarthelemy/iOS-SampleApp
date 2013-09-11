@@ -26,7 +26,6 @@
 
 // Update (Private)
 
-// Delete
-- (void)deleteStation;
+// Delete (The assumption here is that a Station won't disapear)
 
 @end

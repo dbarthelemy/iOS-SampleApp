@@ -51,7 +51,7 @@
     station.latitude = latitude;
     station.longitude = longitude;
     
-    NSError *error;
+    NSError *error = nil;
     if (![context save:&error]) {
         ALog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
@@ -85,7 +85,7 @@
     }
 
     if (wasUpdated) {
-        NSError *error;
+        NSError *error = nil;
         if (![self.managedObjectContext save:&error]) {
             ALog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
@@ -152,13 +152,6 @@
     [fetchRequest release];
     
     return station;
-}
-
-
-#pragma mark - Delete methods
-
-- (void)deleteStation {
-    // FIXME
 }
 
 @end

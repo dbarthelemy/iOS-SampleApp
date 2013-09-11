@@ -8,8 +8,9 @@
 
 #import "PhotosViewController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
+#import <AssetsLibrary/ALAssetsLibrary.h>
 #import "PhotoPreviewViewController.h"
-#import "Photo.h"
+#import "Photo+CRUD.h"
 
 @interface PhotosViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 - (void)configureView;
@@ -240,8 +241,8 @@
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = [[object valueForKey:@"name"] description];
+    Photo *aPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    cell.textLabel.text = [aPhoto.title length] ? aPhoto.title : @"Photo sans titre";
 }
 
 
@@ -315,24 +316,36 @@
         }
         
         if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
+            // Retrieve Metadata
+            NSDictionary *originalMetadata = (NSDictionary *)[info objectForKey:UIImagePickerControllerMediaMetadata];
+
             // Save the new image (original or edited) to the Camera Roll
-            UIImageWriteToSavedPhotosAlbum (imageToSave, nil, nil , nil);
+            ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
+
+            [library writeImageToSavedPhotosAlbum:imageToSave.CGImage metadata:originalMetadata completionBlock:^(NSURL* assetURL, NSError* error) {
+                if (error.code == 0) {
+                    DLog(@"Photo URL: %@", assetURL);
+                    
+                    [Photo addPhotoWithAssetUrl:assetURL
+                                      timeStamp:[NSDate date]
+                                          title:nil
+                                       latitude:nil
+                                      longitude:nil
+                                        station:self.theStation];
+                }
+                else {
+                    DLog(@"Photo saved failled with error: %@", [error localizedDescription]);
+                    
+                    UIAlertView *saveAlert = [[UIAlertView alloc] initWithTitle:@"Erreur"
+                                                                        message:@"Sauvegarde impossible"
+                                                                       delegate:nil
+                                                              cancelButtonTitle:@"Ok"
+                                                              otherButtonTitles:nil];
+                    [saveAlert show];
+                    [saveAlert release];
+                }
+            }];
         }
-/*
-        // Save in App Sandbox during the upload process
-        NSURL *savedImageUrl = [[UploadManager sharedManager] saveImage:scaledImage forUser:self.currentUser]; // FIXME
-        
-        // Notify the user about the error
-        if (!savedImageUrl) {
-            UIAlertView *saveAlert = [[UIAlertView alloc] initWithTitle:@"Erreur"
-                                                                message:@"Sauvegarde impossible"
-                                                               delegate:nil
-                                                      cancelButtonTitle:@"Ok"
-                                                      otherButtonTitles:nil];
-            [saveAlert show];
-            [saveAlert release];
-        }
- */
     }
         
     [[picker presentingViewController] dismissViewControllerAnimated:YES completion:nil];

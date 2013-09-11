@@ -188,8 +188,8 @@
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = [[object valueForKey:@"name"] description];
+    Station *aStation = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    cell.textLabel.text = aStation.name;
 }
 
 @end
