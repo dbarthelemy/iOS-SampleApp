@@ -24,6 +24,8 @@
                  longitude:(NSNumber *)longitude
     inManagedObjectContext:(NSManagedObjectContext *)context;
 
+- (NSString *)photoCounterString;
+
 // Update (Private)
 
 // Delete (The assumption here is that a Station won't disapear)

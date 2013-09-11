@@ -153,6 +153,9 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Photo" inManagedObjectContext:self.managedObjectContext];
     [fetchRequest setEntity:entity];
     
+    // Set predicate
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"station.remoteId like[cd] %@", self.theStation.remoteId]];
+
     // Set the batch size to a suitable number.
     [fetchRequest setFetchBatchSize:20];
     

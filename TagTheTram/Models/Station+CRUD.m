@@ -154,4 +154,14 @@
     return station;
 }
 
+- (NSString *)photoCounterString
+{
+    if ([self.photos count] == 0) {
+        return @"";
+    }
+    else {
+        return [NSString stringWithFormat:@"%u", [self.photos count]];
+    }
+}
+
 @end

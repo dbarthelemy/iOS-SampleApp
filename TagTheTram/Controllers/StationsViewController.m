@@ -8,6 +8,7 @@
 
 #import "StationsViewController.h"
 #import "PhotosViewController.h"
+#import "Station+CRUD.h"
 
 @interface StationsViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
@@ -66,7 +67,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil)
     {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
     }
     
     [self configureCell:cell atIndexPath:indexPath];
@@ -190,6 +191,7 @@
 {
     Station *aStation = [self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = aStation.name;
+    cell.detailTextLabel.text = [aStation photoCounterString];
 }
 
 @end
