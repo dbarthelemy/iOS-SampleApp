@@ -9,10 +9,12 @@
 #import "PhotosViewController.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <AssetsLibrary/ALAssetsLibrary.h>
+#import <AssetsLibrary/ALAsset.h>
 #import "PhotoPreviewViewController.h"
 #import "Photo+CRUD.h"
 
 @interface PhotosViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@property (nonatomic, retain) ALAssetsLibrary *assetsLibrary;
 - (void)configureView;
 @end
 
@@ -56,6 +58,28 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    // Register to UIApplicationDidBecomeActiveNotification to refresh the table after Background exit
+    //  so that any removed photo from the camera roll will be deleted from the list
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(applicationDidBecomeActive)
+                                                 name:UIApplicationDidBecomeActiveNotification
+                                               object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    self.fetchedResultsController = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super viewWillDisappear:animated];
+}
+
+- (void)applicationDidBecomeActive
+{
+    [self.tableView reloadData];
+}
 
 #pragma mark - Custom Getter/Setter
 
@@ -68,6 +92,14 @@
         // Update the view.
         [self configureView];
     }
+}
+
+- (ALAssetsLibrary *)assetsLibrary
+{
+    if (_assetsLibrary == nil) {
+        _assetsLibrary = [[ALAssetsLibrary alloc] init];
+    }
+    return _assetsLibrary;
 }
 
 
@@ -246,6 +278,20 @@
 {
     Photo *aPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = [aPhoto.title length] ? aPhoto.title : @"Photo sans titre";
+    cell.detailTextLabel.text = [aPhoto.timeStamp description];
+    [self.assetsLibrary assetForURL:aPhoto.assetUrl
+                        resultBlock:^(ALAsset *asset) {
+                            if (asset) {
+                                cell.imageView.image = [UIImage imageWithCGImage:[asset thumbnail]];
+                                [cell setNeedsLayout];
+                            }
+                            else {
+                                [aPhoto deletePhoto];
+                            }
+                        }
+                       failureBlock:^(NSError *error) {
+                           [aPhoto deletePhoto];
+                       }];
 }
 
 

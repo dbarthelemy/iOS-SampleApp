@@ -45,6 +45,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    self.fetchedResultsController = nil;
+    [super viewWillDisappear:animated];
+}
+
 
 #pragma mark - Table View
 
