@@ -56,27 +56,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    // Register to UIApplicationDidBecomeActiveNotification to refresh the table after Background exit
-    //  so that any removed photo from the camera roll will be deleted from the list
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationDidBecomeActive)
-                                                 name:UIApplicationDidBecomeActiveNotification
-                                               object:nil];
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [super viewWillDisappear:animated];
-}
-
-- (void)applicationDidBecomeActive
-{
-    [self.tableView reloadData];
-}
 
 #pragma mark - Custom Getter/Setter
 
