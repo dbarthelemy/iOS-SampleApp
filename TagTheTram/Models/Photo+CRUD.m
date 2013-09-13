@@ -8,16 +8,24 @@
 
 #import "Photo+CRUD.h"
 #import "AppDelegate.h"
+#import "UIImage+Additions.h"
 
 @interface Photo (CRUD_Private)
 // URL persitence
 + (NSData*)bookmarkForURL:(NSURL*)url;
 + (NSURL*)urlForBookmark:(NSData*)bookmark;
+// Photo persistence
++ (NSURL *)urlForSavedPhotoUsingImage:(UIImage *)image date:(NSDate *)date;
++ (NSURL *)urlForSavedThumbnailUsingImage:(UIImage *)image date:(NSDate *)date;
++ (NSURL *)urlForSavedImage:(UIImage *)image usingDate:(NSDate *)date suffixName:(NSString *)suffix;
 @end
 
 @implementation Photo (CRUD_Private)
 
 + (NSData*)bookmarkForURL:(NSURL*)url {
+    if (!url) {
+        return nil;
+    }
     NSError* theError = nil;
     NSData* bookmark = [url bookmarkDataWithOptions:NSURLBookmarkCreationSuitableForBookmarkFile
                      includingResourceValuesForKeys:nil
@@ -31,6 +39,9 @@
 }
 
 + (NSURL*)urlForBookmark:(NSData*)bookmark {
+    if (!bookmark) {
+        return nil;
+    }
     BOOL bookmarkIsStale = NO;
     NSError* theError = nil;
     NSURL* bookmarkURL = [NSURL URLByResolvingBookmarkData:bookmark
@@ -46,50 +57,87 @@
     return bookmarkURL;
 }
 
++ (NSURL *)urlForSavedPhotoUsingImage:(UIImage *)image date:(NSDate *)date
+{
+    return [Photo urlForSavedImage:image usingDate:date suffixName:@"Photo"];
+}
+
++ (NSURL *)urlForSavedThumbnailUsingImage:(UIImage *)image date:(NSDate *)date
+{
+    UIImage *thumbnail = [image resizeCroppedImageToWidth:kMediaThumbnailWidth height:kMediaThumbnailHeight];
+    
+    return [Photo urlForSavedImage:thumbnail usingDate:date suffixName:@"Thumbnail"];
+}
+
++ (NSURL *)urlForSavedImage:(UIImage *)image usingDate:(NSDate *)date suffixName:(NSString *)suffix
+{
+    NSURL *savedUrl = nil;
+    
+    NSData *imageRepresentation = UIImageJPEGRepresentation(image, 1.0);
+    if (imageRepresentation) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyyMMddHHmmss"];
+        NSString *filename = [NSString stringWithFormat:@"%@-%@", [dateFormatter stringFromDate:date], suffix];
+        [dateFormatter release];
+        
+        NSURL *baseUrl = [NSURL URLWithString:filename relativeToURL:[(AppDelegate *)[[UIApplication sharedApplication] delegate] applicationMediasDirectory]];
+        NSURL *targetUrl = [NSURL URLWithString:filename relativeToURL:baseUrl];
+        NSURL *targetUrlWithExt = [targetUrl URLByAppendingPathExtension:@"jpg"];
+        
+        if ([imageRepresentation writeToURL:targetUrlWithExt atomically:YES]) {
+            savedUrl = targetUrlWithExt;
+        }
+    }
+    
+    return savedUrl;
+}
+
 @end
 
 @implementation Photo (CRUD)
 
 #pragma mark - Create methods
 
-+ (Photo *)addPhotoWithAssetUrl:(NSURL *)assetUrl
-                      timeStamp:(NSDate *)timeStamp
-                          title:(NSString *)title
-                       latitude:(NSNumber *)latitude
-                      longitude:(NSNumber *)longitude
-                        station:(Station *)station
++ (Photo *)addPhotoWithImage:(UIImage *)image
+                   timeStamp:(NSDate *)timeStamp
+                       title:(NSString *)title
+                    latitude:(NSNumber *)latitude
+                   longitude:(NSNumber *)longitude
+                     station:(Station *)station
 {
     // Use the main CodeData context
     NSManagedObjectContext *context = [(AppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
     
-    return [Photo addPhotoWithAssetUrl:assetUrl
-                             timeStamp:timeStamp
-                                 title:title
-                              latitude:latitude
-                             longitude:longitude
-                               station:station
-                inManagedObjectContext:context];
+    return [Photo addPhotoWithImage:image
+                          timeStamp:timeStamp
+                              title:title
+                           latitude:latitude
+                          longitude:longitude
+                            station:station
+             inManagedObjectContext:context];
 }
 
-+ (Photo *)addPhotoWithAssetUrl:(NSURL *)assetUrl
-                      timeStamp:(NSDate *)timeStamp
-                          title:(NSString *)title
-                       latitude:(NSNumber *)latitude
-                      longitude:(NSNumber *)longitude
-                        station:(Station *)station
-         inManagedObjectContext:(NSManagedObjectContext *)context
++ (Photo *)addPhotoWithImage:(UIImage *)image
+                   timeStamp:(NSDate *)timeStamp
+                       title:(NSString *)title
+                    latitude:(NSNumber *)latitude
+                   longitude:(NSNumber *)longitude
+                     station:(Station *)station
+      inManagedObjectContext:(NSManagedObjectContext *)context
 {
-    if (!assetUrl) {
-        ALog(@"assetUrl is nil");
+    if (!image) {
+        ALog(@"image is nil");
         return nil;
     }
     if (!station) {
         ALog(@"station is nil");
         return nil;
     }
-    NSData *assetBookmark = [Photo bookmarkForURL:assetUrl];
-    if (!assetBookmark) {
-        ALog(@"assetUrl cannot be converted to bookmark");
+    
+    NSURL *photoUrl = [Photo urlForSavedPhotoUsingImage:image date:timeStamp];
+    NSData *photoBookmark = [Photo bookmarkForURL:photoUrl];
+    if (!photoBookmark) {
+        ALog(@"Photo cannot be saved");
         return nil;
     }
     
@@ -97,12 +145,13 @@
     Photo *photo = [[[Photo alloc] initWithEntity:entityDescriptor insertIntoManagedObjectContext:context] autorelease];
     
     // Initialize attributes
-    photo.bookmark = assetBookmark;
+    photo.photoBookmark = photoBookmark;
     photo.timeStamp = timeStamp ? timeStamp : [NSDate date];
     photo.title = title ? title : @"";
     photo.latitude = latitude ? latitude : @0.0;
     photo.longitude = longitude ? longitude : @0.0;
-
+    photo.thumbnailBookmark = nil;
+    
     // Initialize relationships
     photo.station = station;
     
@@ -111,16 +160,46 @@
         ALog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
+
+    // Prepare the Thumbnail in background
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        NSURL *thumbnailUrl = [Photo urlForSavedThumbnailUsingImage:image date:timeStamp];
+        if (thumbnailUrl) {
+            dispatch_async(dispatch_get_main_queue() , ^{
+                [photo updatePhotoWithTitle:nil latitude:nil longitude:nil thumbnailUrl:thumbnailUrl];
+            });
+        }
+        else {
+            ALog(@"Thumbnail cannot be created");
+        }
+    });
     
     return photo;
 }
 
 
-#pragma mark - Read methods
+#pragma mark - Read & QLPreviewItem protocol methods
 
-- (NSURL *)assetUrl
+- (NSURL *)thumbnailURL
 {
-    return [Photo urlForBookmark:self.bookmark];
+    return [Photo urlForBookmark:self.thumbnailBookmark];
+}
+
+- (NSURL *)photoURL
+{
+    return [Photo urlForBookmark:self.photoBookmark];
+}
+
+- (NSString *)previewItemTitle
+{
+    return ([self.title length] > 0) ? self.title : [NSDateFormatter localizedStringFromDate:self.timeStamp
+                                                                                   dateStyle:NSDateFormatterShortStyle
+                                                                                   timeStyle:NSDateFormatterShortStyle];
+}
+
+- (NSURL *)previewItemURL
+{
+    return [self photoURL];
 }
 
 
@@ -129,6 +208,7 @@
 - (BOOL)updatePhotoWithTitle:(NSString *)title
                     latitude:(NSNumber *)latitude
                    longitude:(NSNumber *)longitude
+                thumbnailUrl:(NSURL *)thumbnailUrl;
 {
     BOOL wasUpdated = NO;
     
@@ -146,7 +226,13 @@
         self.longitude = longitude;
         wasUpdated = YES;
     }
-    
+
+    NSData *bookmark = [Photo bookmarkForURL:thumbnailUrl];
+    if ((bookmark) && (![bookmark isEqualToData:self.thumbnailBookmark])) {
+        self.thumbnailBookmark = bookmark;
+        wasUpdated = YES;
+    }
+
     if (wasUpdated) {
         NSError *error = nil;
         if (![self.managedObjectContext save:&error]) {
@@ -163,10 +249,28 @@
 
 - (void)deletePhoto
 {
-    // Any cached images in the App Sandbox should be removed before deleting the object.
-    
     NSManagedObjectContext *context = self.managedObjectContext;
 
+    if (self.photoBookmark) {
+        NSURL *photoUlr = [Photo urlForBookmark:self.photoBookmark];
+        if ([photoUlr isFileURL]) {
+            NSError *error = nil;
+            if (![[NSFileManager defaultManager] removeItemAtURL:photoUlr error:&error]) {
+                ALog(@"%@", error.localizedDescription);
+            }
+        }
+    }
+
+    if (self.thumbnailBookmark) {
+        NSURL *thumbnailUlr = [Photo urlForBookmark:self.thumbnailBookmark];
+        if ([thumbnailUlr isFileURL]) {
+            NSError *error = nil;
+            if (![[NSFileManager defaultManager] removeItemAtURL:thumbnailUlr error:&error]) {
+                ALog(@"%@", error.localizedDescription);
+            }
+        }
+    }
+    
     [context deleteObject:self];
     
     NSError *error;

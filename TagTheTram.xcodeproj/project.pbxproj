@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		631E310D17E03F0700446EF7 /* PhotoPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 631E310C17E03F0700446EF7 /* PhotoPreviewViewController.m */; };
 		631F1BB917E0D64B00F124FD /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 631F1BB817E0D64B00F124FD /* AssetsLibrary.framework */; };
 		63297FF517DE624200EE3B7A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63297FF417DE624200EE3B7A /* UIKit.framework */; };
 		63297FF717DE624200EE3B7A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63297FF617DE624200EE3B7A /* Foundation.framework */; };
@@ -22,19 +21,22 @@
 		6329801017DE624200EE3B7A /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6329800E17DE624200EE3B7A /* MainStoryboard.storyboard */; };
 		6329802817DE68BC00EE3B7A /* StationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329802617DE68BC00EE3B7A /* StationsViewController.m */; };
 		6329802C17DE68D600EE3B7A /* TagTheTram.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 6329802A17DE68D600EE3B7A /* TagTheTram.xcdatamodeld */; };
-		6329802F17DE69A000EE3B7A /* Station.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329802E17DE69A000EE3B7A /* Station.m */; };
-		6329803217DE69A000EE3B7A /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329803117DE69A000EE3B7A /* Photo.m */; };
 		6329803717DE6BF600EE3B7A /* StationWebService.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329803617DE6BF600EE3B7A /* StationWebService.m */; };
 		6329803B17DE7E5D00EE3B7A /* Station+CRUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329803A17DE7E5D00EE3B7A /* Station+CRUD.m */; };
+		632E8A9817E247FF00B078A4 /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 632E8A9717E247FF00B078A4 /* QuickLook.framework */; };
 		6340925417DFC60D00899368 /* PhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6340925317DFC60D00899368 /* PhotosViewController.m */; };
 		6340925A17DFCFDB00899368 /* CustomNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6340925917DFCFDB00899368 /* CustomNavigationController.m */; };
 		635E3F9B17E089B700DD4466 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 635E3F9A17E089B700DD4466 /* MobileCoreServices.framework */; };
 		6380EE2317E0F7B100C381B7 /* Photo+CRUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6380EE2217E0F7B100C381B7 /* Photo+CRUD.m */; };
+		63EEC65317E3997500409C50 /* Station.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EEC65217E3997500409C50 /* Station.m */; };
+		63EEC65617E3997500409C50 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EEC65517E3997500409C50 /* Photo.m */; };
+		63EEC65917E39AF300409C50 /* UIImage+ProportionalFill.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EEC65817E39AF300409C50 /* UIImage+ProportionalFill.m */; };
+		63EEC65F17E39B8800409C50 /* UIImage+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EEC65E17E39B8800409C50 /* UIImage+Additions.m */; };
+		63EEC66417E3AF2C00409C50 /* thumbnail-picto.png in Resources */ = {isa = PBXBuildFile; fileRef = 63EEC66217E3AF2C00409C50 /* thumbnail-picto.png */; };
+		63EEC66517E3AF2C00409C50 /* thumbnail-picto@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63EEC66317E3AF2C00409C50 /* thumbnail-picto@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		631E310B17E03F0700446EF7 /* PhotoPreviewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoPreviewViewController.h; sourceTree = "<group>"; };
-		631E310C17E03F0700446EF7 /* PhotoPreviewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoPreviewViewController.m; sourceTree = "<group>"; };
 		631F1BB817E0D64B00F124FD /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		63297FF117DE624200EE3B7A /* TagTheTram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TagTheTram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		63297FF417DE624200EE3B7A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -55,20 +57,27 @@
 		6329802517DE68BC00EE3B7A /* StationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StationsViewController.h; sourceTree = "<group>"; };
 		6329802617DE68BC00EE3B7A /* StationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StationsViewController.m; sourceTree = "<group>"; };
 		6329802B17DE68D600EE3B7A /* TagTheTram.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TagTheTram.xcdatamodel; sourceTree = "<group>"; };
-		6329802D17DE69A000EE3B7A /* Station.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Station.h; sourceTree = "<group>"; };
-		6329802E17DE69A000EE3B7A /* Station.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Station.m; sourceTree = "<group>"; };
-		6329803017DE69A000EE3B7A /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
-		6329803117DE69A000EE3B7A /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
 		6329803517DE6BF600EE3B7A /* StationWebService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StationWebService.h; sourceTree = "<group>"; };
 		6329803617DE6BF600EE3B7A /* StationWebService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StationWebService.m; sourceTree = "<group>"; };
 		6329803917DE7E5D00EE3B7A /* Station+CRUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Station+CRUD.h"; sourceTree = "<group>"; };
 		6329803A17DE7E5D00EE3B7A /* Station+CRUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Station+CRUD.m"; sourceTree = "<group>"; };
+		632E8A9717E247FF00B078A4 /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		6340925317DFC60D00899368 /* PhotosViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotosViewController.m; sourceTree = "<group>"; };
 		6340925817DFCFDB00899368 /* CustomNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationController.h; sourceTree = "<group>"; };
 		6340925917DFCFDB00899368 /* CustomNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationController.m; sourceTree = "<group>"; };
 		635E3F9A17E089B700DD4466 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		6380EE2117E0F7B100C381B7 /* Photo+CRUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Photo+CRUD.h"; sourceTree = "<group>"; };
 		6380EE2217E0F7B100C381B7 /* Photo+CRUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Photo+CRUD.m"; sourceTree = "<group>"; };
+		63EEC65117E3997500409C50 /* Station.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Station.h; sourceTree = "<group>"; };
+		63EEC65217E3997500409C50 /* Station.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Station.m; sourceTree = "<group>"; };
+		63EEC65417E3997500409C50 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
+		63EEC65517E3997500409C50 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
+		63EEC65717E39AF300409C50 /* UIImage+ProportionalFill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ProportionalFill.h"; sourceTree = "<group>"; };
+		63EEC65817E39AF300409C50 /* UIImage+ProportionalFill.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ProportionalFill.m"; sourceTree = "<group>"; };
+		63EEC65D17E39B8800409C50 /* UIImage+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Additions.h"; sourceTree = "<group>"; };
+		63EEC65E17E39B8800409C50 /* UIImage+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Additions.m"; sourceTree = "<group>"; };
+		63EEC66217E3AF2C00409C50 /* thumbnail-picto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thumbnail-picto.png"; sourceTree = "<group>"; };
+		63EEC66317E3AF2C00409C50 /* thumbnail-picto@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thumbnail-picto@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +85,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				632E8A9817E247FF00B078A4 /* QuickLook.framework in Frameworks */,
 				631F1BB917E0D64B00F124FD /* AssetsLibrary.framework in Frameworks */,
 				635E3F9B17E089B700DD4466 /* MobileCoreServices.framework in Frameworks */,
 				63297FF517DE624200EE3B7A /* UIKit.framework in Frameworks */,
@@ -108,6 +118,7 @@
 		63297FF317DE624200EE3B7A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				632E8A9717E247FF00B078A4 /* QuickLook.framework */,
 				631F1BB817E0D64B00F124FD /* AssetsLibrary.framework */,
 				635E3F9A17E089B700DD4466 /* MobileCoreServices.framework */,
 				63297FF417DE624200EE3B7A /* UIKit.framework */,
@@ -126,7 +137,9 @@
 				6329802217DE68BC00EE3B7A /* Controllers */,
 				6329800E17DE624200EE3B7A /* MainStoryboard.storyboard */,
 				6329802917DE68D600EE3B7A /* Models */,
+				63EEC65C17E39B8800409C50 /* Helpers */,
 				63297FFD17DE624200EE3B7A /* Supporting Files */,
+				63EEC66017E3AF2C00409C50 /* Resources */,
 				6340925717DFCFDB00899368 /* External Files */,
 			);
 			path = TagTheTram;
@@ -153,8 +166,6 @@
 				6329802617DE68BC00EE3B7A /* StationsViewController.m */,
 				6329802317DE68BC00EE3B7A /* PhotosViewController.h */,
 				6340925317DFC60D00899368 /* PhotosViewController.m */,
-				631E310B17E03F0700446EF7 /* PhotoPreviewViewController.h */,
-				631E310C17E03F0700446EF7 /* PhotoPreviewViewController.m */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -163,10 +174,10 @@
 			isa = PBXGroup;
 			children = (
 				6329802A17DE68D600EE3B7A /* TagTheTram.xcdatamodeld */,
-				6329802D17DE69A000EE3B7A /* Station.h */,
-				6329802E17DE69A000EE3B7A /* Station.m */,
-				6329803017DE69A000EE3B7A /* Photo.h */,
-				6329803117DE69A000EE3B7A /* Photo.m */,
+				63EEC65117E3997500409C50 /* Station.h */,
+				63EEC65217E3997500409C50 /* Station.m */,
+				63EEC65417E3997500409C50 /* Photo.h */,
+				63EEC65517E3997500409C50 /* Photo.m */,
 				6329803317DE69A400EE3B7A /* Additions */,
 				6329803817DE6BFC00EE3B7A /* WebService */,
 			);
@@ -196,10 +207,54 @@
 		6340925717DFCFDB00899368 /* External Files */ = {
 			isa = PBXGroup;
 			children = (
+				63EEC65B17E39B0900409C50 /* Categories */,
+				63EEC65A17E39AFB00409C50 /* Subclasses */,
+			);
+			path = "External Files";
+			sourceTree = "<group>";
+		};
+		63EEC65A17E39AFB00409C50 /* Subclasses */ = {
+			isa = PBXGroup;
+			children = (
 				6340925817DFCFDB00899368 /* CustomNavigationController.h */,
 				6340925917DFCFDB00899368 /* CustomNavigationController.m */,
 			);
-			path = "External Files";
+			name = Subclasses;
+			sourceTree = "<group>";
+		};
+		63EEC65B17E39B0900409C50 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				63EEC65717E39AF300409C50 /* UIImage+ProportionalFill.h */,
+				63EEC65817E39AF300409C50 /* UIImage+ProportionalFill.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		63EEC65C17E39B8800409C50 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				63EEC65D17E39B8800409C50 /* UIImage+Additions.h */,
+				63EEC65E17E39B8800409C50 /* UIImage+Additions.m */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		63EEC66017E3AF2C00409C50 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				63EEC66117E3AF2C00409C50 /* Images */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		63EEC66117E3AF2C00409C50 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				63EEC66217E3AF2C00409C50 /* thumbnail-picto.png */,
+				63EEC66317E3AF2C00409C50 /* thumbnail-picto@2x.png */,
+			);
+			path = Images;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,6 +313,8 @@
 				6329800B17DE624200EE3B7A /* Default@2x.png in Resources */,
 				6329800D17DE624200EE3B7A /* Default-568h@2x.png in Resources */,
 				6329801017DE624200EE3B7A /* MainStoryboard.storyboard in Resources */,
+				63EEC66417E3AF2C00409C50 /* thumbnail-picto.png in Resources */,
+				63EEC66517E3AF2C00409C50 /* thumbnail-picto@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,14 +329,15 @@
 				6329800717DE624200EE3B7A /* AppDelegate.m in Sources */,
 				6329802817DE68BC00EE3B7A /* StationsViewController.m in Sources */,
 				6329802C17DE68D600EE3B7A /* TagTheTram.xcdatamodeld in Sources */,
-				6329802F17DE69A000EE3B7A /* Station.m in Sources */,
-				6329803217DE69A000EE3B7A /* Photo.m in Sources */,
 				6329803717DE6BF600EE3B7A /* StationWebService.m in Sources */,
 				6329803B17DE7E5D00EE3B7A /* Station+CRUD.m in Sources */,
 				6340925417DFC60D00899368 /* PhotosViewController.m in Sources */,
 				6340925A17DFCFDB00899368 /* CustomNavigationController.m in Sources */,
-				631E310D17E03F0700446EF7 /* PhotoPreviewViewController.m in Sources */,
 				6380EE2317E0F7B100C381B7 /* Photo+CRUD.m in Sources */,
+				63EEC65317E3997500409C50 /* Station.m in Sources */,
+				63EEC65617E3997500409C50 /* Photo.m in Sources */,
+				63EEC65917E39AF300409C50 /* UIImage+ProportionalFill.m in Sources */,
+				63EEC65F17E39B8800409C50 /* UIImage+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

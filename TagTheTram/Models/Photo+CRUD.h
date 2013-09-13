@@ -7,32 +7,39 @@
 //
 
 #import "Photo.h"
+#import <QuickLook/QuickLook.h>
 
-@interface Photo (CRUD)
+@interface Photo (CRUD) <QLPreviewItem>
+
+// QLPreviewItem protocol
+@property (readonly) NSString *previewItemTitle;
+@property (readonly) NSURL *previewItemURL;
 
 // Create
-+ (Photo *)addPhotoWithAssetUrl:(NSURL *)assetUrl
-                      timeStamp:(NSDate *)timeStamp
-                          title:(NSString *)title
-                       latitude:(NSNumber *)latitude
-                      longitude:(NSNumber *)longitude
-                        station:(Station *)station;
++ (Photo *)addPhotoWithImage:(UIImage *)image
+                   timeStamp:(NSDate *)timeStamp
+                       title:(NSString *)title
+                    latitude:(NSNumber *)latitude
+                   longitude:(NSNumber *)longitude
+                     station:(Station *)station;
 
-+ (Photo *)addPhotoWithAssetUrl:(NSURL *)assetUrl
-                      timeStamp:(NSDate *)timeStamp
-                          title:(NSString *)title
-                       latitude:(NSNumber *)latitude
-                      longitude:(NSNumber *)longitude
-                        station:(Station *)station
-         inManagedObjectContext:(NSManagedObjectContext *)context;
++ (Photo *)addPhotoWithImage:(UIImage *)image
+                   timeStamp:(NSDate *)timeStamp
+                       title:(NSString *)title
+                    latitude:(NSNumber *)latitude
+                   longitude:(NSNumber *)longitude
+                     station:(Station *)station
+      inManagedObjectContext:(NSManagedObjectContext *)context;
 
-// Read
-- (NSURL *)assetUrl;
+// Read (also refer to <QLPreviewItem>)
+@property (readonly) NSURL *thumbnailURL;
+@property (readonly) NSURL *photoURL;
 
 // Update
 - (BOOL)updatePhotoWithTitle:(NSString *)title
                     latitude:(NSNumber *)latitude
-                   longitude:(NSNumber *)longitude;
+                   longitude:(NSNumber *)longitude
+                thumbnailUrl:(NSURL *)thumbnailUrl;
 
 // Delete
 - (void)deletePhoto;

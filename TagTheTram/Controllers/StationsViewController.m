@@ -11,6 +11,8 @@
 #import "Station+CRUD.h"
 
 @interface StationsViewController ()
+@property (nonatomic, retain) Station *selectedStation;
+
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 @end
 
@@ -18,6 +20,7 @@
 
 - (void)dealloc
 {
+    [_selectedStation release];
     [_fetchedResultsController release];
     [_managedObjectContext release];
     [super dealloc];
@@ -43,6 +46,16 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    if (self.selectedStation) {
+        // Make sure the photo counter is up to date for the Station
+        NSIndexPath *indexPath = [self.fetchedResultsController indexPathForObject:self.selectedStation];
+        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        self.selectedStation = nil;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -87,9 +100,9 @@
 {
     if ([[segue identifier] isEqualToString:@"showStation"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        Station *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+        self.selectedStation = [[self fetchedResultsController] objectAtIndexPath:indexPath];
         [[segue destinationViewController] setManagedObjectContext:self.managedObjectContext];
-        [[segue destinationViewController] setTheStation:object];
+        [[segue destinationViewController] setTheStation:self.selectedStation];
     }
 }
 
@@ -126,7 +139,7 @@
 	if (![self.fetchedResultsController performFetch:&error]) {
 	     // Replace this implementation with code to handle the error appropriately.
 	     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+	    ALog(@"Unresolved error %@, %@", error, [error userInfo]);
 	    abort();
 	}
     

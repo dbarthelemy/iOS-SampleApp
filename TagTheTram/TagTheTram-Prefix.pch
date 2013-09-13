@@ -23,3 +23,17 @@
 
 // Always Log
 #define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+
+// App and Build version
+#define BUNDLE_APP_VERSION   [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]
+#define BUNDLE_BUILD_VERSION [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]
+
+// Directory to store the medias during the upload process
+#define kMediasDirectory @"Medias"
+
+// Web Service Request URL as a string
+#define kStationServerRequestUrlString @"http://modulaweb.fr/apitam/?request=getStopsList&fullInfos=1"
+
+// Fix the thumbnail size
+#define kMediaThumbnailWidth  64
+#define kMediaThumbnailHeight 64

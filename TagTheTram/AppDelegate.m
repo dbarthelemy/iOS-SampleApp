@@ -10,6 +10,10 @@
 #import "StationsViewController.h"
 #import "StationWebService.h"
 
+@interface AppDelegate ()
+@property (nonatomic, retain) NSURL *applicationMediasDirectory;
+@end
+
 @implementation AppDelegate
 
 - (void)dealloc
@@ -18,6 +22,7 @@
     [_managedObjectContext release];
     [_managedObjectModel release];
     [_persistentStoreCoordinator release];
+    [_applicationMediasDirectory release];
     [super dealloc];
 }
 
@@ -71,7 +76,7 @@
         if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
              // Replace this implementation with code to handle the error appropriately.
              // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            ALog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         } 
     }
@@ -119,7 +124,13 @@
     
     NSError *error = nil;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
+    
+    // Enable Lightweight Migration
+    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+                             [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
+
+    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error]) {
         /*
          Replace this implementation with code to handle the error appropriately.
          
@@ -143,12 +154,37 @@
          Lightweight migration will only work for a limited set of schema changes; consult "Core Data Model Versioning and Data Migration Programming Guide" for details.
          
          */
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }    
+        ALog(@"Unresolved error %@, %@", error, [error userInfo]);
+
+        ALog(@"Delete existing store");
+        [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil];
+        
+        // Retry
+        NSError *retryError = nil;
+        if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&retryError]) {
+            ALog(@"Unresolved error upon retry %@, %@", retryError, [retryError userInfo]);
+            abort();
+        }
+    }
     
     return _persistentStoreCoordinator;
 }
+
+- (void)resetLocalStore
+{
+	NSPersistentStoreCoordinator *coordinator = self.persistentStoreCoordinator;
+    if (coordinator != nil) {
+		NSArray *stores = [coordinator persistentStores];
+		
+		for(NSPersistentStore *store in stores) {
+			[coordinator removePersistentStore:store error:nil];
+			[[NSFileManager defaultManager] removeItemAtPath:store.URL.path error:nil];
+		}
+		
+		[_persistentStoreCoordinator release], _persistentStoreCoordinator = nil;
+	}
+}
+
 
 #pragma mark - Application's Documents directory
 
@@ -156,6 +192,86 @@
 - (NSURL *)applicationDocumentsDirectory
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+- (NSURL *)applicationMediasDirectory
+{
+    if (!_applicationMediasDirectory) {
+        NSURL *baseUrl = [self applicationDocumentsDirectory];
+        NSURL *mediasUrl = [baseUrl URLByAppendingPathComponent:kMediasDirectory isDirectory:YES];
+        _applicationMediasDirectory = [mediasUrl retain];
+        
+        NSError *error = nil;
+        if (![[NSFileManager defaultManager] createDirectoryAtURL:mediasUrl withIntermediateDirectories:YES attributes:nil error:&error]) {
+            if (error) {
+                ALog(@"NSFileManager error %@, %@", error, [error userInfo]);
+                _applicationMediasDirectory = [baseUrl retain];
+            }
+        }
+    }
+    return _applicationMediasDirectory;
+}
+
+
+#pragma mark - Setting Bundle
+
+- (void)handleSettingBundle
+{
+    // Handle NSUserDefaults
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    if ([defaults objectForKey:@"AppVersion"]) {
+        // Update NSUserDefaults
+        DLog(@"Update NSUserDefaults");
+        [defaults setObject:BUNDLE_APP_VERSION forKey:@"AppVersion"];
+        [defaults setObject:BUNDLE_BUILD_VERSION forKey:@"BuildVersion"];
+    }
+    else {
+        // Register NSUserDefaults
+        DLog(@"Register NSUserDefaults");
+        [defaults setObject:BUNDLE_APP_VERSION forKey:@"AppVersion"];
+        [defaults setObject:BUNDLE_BUILD_VERSION forKey:@"BuildVersion"];
+        
+        // Make sure it is saved in the filesystem
+        if (![defaults synchronize]) {
+            ALog(@"NSUserDefaults cannot be saved");
+        }
+    }
+    
+    // Handle Cache flush
+    if ([defaults boolForKey:@"ResetCache"]) {
+        // Remove cached media
+        [self removeCachedMediaFiles];
+        
+        // Reset the Core Data local store
+        [self resetLocalStore];
+        
+        // Clear the flag
+        [defaults setBool:NO forKey:@"ResetCache"];
+    }
+    
+    [defaults synchronize];
+}
+
+- (void)removeCachedMediaFiles
+{
+    NSError *error = nil;
+    NSArray *medias = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:self.applicationMediasDirectory
+                                                    includingPropertiesForKeys:nil
+                                                                       options:NSDirectoryEnumerationSkipsHiddenFiles
+                                                                         error:&error];
+    if (!error) {
+        for (NSURL *eachItem in medias) {
+            NSError *itemError = nil;
+            [[NSFileManager defaultManager] removeItemAtURL:eachItem error:&itemError];
+            if (itemError) {
+                ALog(@"NSFileManager error %@, %@", error, [error userInfo]);
+            }
+        }
+    }
+    else {
+        ALog(@"NSFileManager error %@, %@", error, [error userInfo]);
+    }
 }
 
 @end

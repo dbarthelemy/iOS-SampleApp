@@ -2,7 +2,7 @@
 //  Photo.m
 //  TagTheTram
 //
-//  Created by David Barthelemy on 09/09/13.
+//  Created by David Barthelemy on 13/09/13.
 //  Copyright (c) 2013 David Barthelemy, iMakeit4U. All rights reserved.
 //
 
@@ -12,11 +12,12 @@
 
 @implementation Photo
 
-@dynamic bookmark;
+@dynamic photoBookmark;
 @dynamic latitude;
 @dynamic longitude;
 @dynamic timeStamp;
 @dynamic title;
+@dynamic thumbnailBookmark;
 @dynamic station;
 
 @end

@@ -2,13 +2,14 @@
 //  Station.h
 //  TagTheTram
 //
-//  Created by David Barthelemy on 09/09/13.
+//  Created by David Barthelemy on 13/09/13.
 //  Copyright (c) 2013 David Barthelemy, iMakeit4U. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+@class Photo;
 
 @interface Station : NSManagedObject
 
@@ -21,8 +22,8 @@
 
 @interface Station (CoreDataGeneratedAccessors)
 
-- (void)addPhotosObject:(NSManagedObject *)value;
-- (void)removePhotosObject:(NSManagedObject *)value;
+- (void)addPhotosObject:(Photo *)value;
+- (void)removePhotosObject:(Photo *)value;
 - (void)addPhotos:(NSSet *)values;
 - (void)removePhotos:(NSSet *)values;
 

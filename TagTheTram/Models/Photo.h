@@ -2,7 +2,7 @@
 //  Photo.h
 //  TagTheTram
 //
-//  Created by David Barthelemy on 09/09/13.
+//  Created by David Barthelemy on 13/09/13.
 //  Copyright (c) 2013 David Barthelemy, iMakeit4U. All rights reserved.
 //
 
@@ -13,11 +13,12 @@
 
 @interface Photo : NSManagedObject
 
-@property (nonatomic, retain) NSData * bookmark;
+@property (nonatomic, retain) NSData * photoBookmark;
 @property (nonatomic, retain) NSNumber * latitude;
 @property (nonatomic, retain) NSNumber * longitude;
 @property (nonatomic, retain) NSDate * timeStamp;
 @property (nonatomic, retain) NSString * title;
+@property (nonatomic, retain) NSData * thumbnailBookmark;
 @property (nonatomic, retain) Station *station;
 
 @end

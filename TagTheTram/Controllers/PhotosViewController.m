@@ -7,14 +7,12 @@
 //
 
 #import "PhotosViewController.h"
+#import "AppDelegate.h"
 #import <MobileCoreServices/MobileCoreServices.h>
-#import <AssetsLibrary/ALAssetsLibrary.h>
-#import <AssetsLibrary/ALAsset.h>
-#import "PhotoPreviewViewController.h"
+#import <QuickLook/QuickLook.h>
 #import "Photo+CRUD.h"
 
-@interface PhotosViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
-@property (nonatomic, retain) ALAssetsLibrary *assetsLibrary;
+@interface PhotosViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, QLPreviewControllerDataSource, QLPreviewControllerDelegate>
 - (void)configureView;
 @end
 
@@ -94,14 +92,6 @@
     }
 }
 
-- (ALAssetsLibrary *)assetsLibrary
-{
-    if (_assetsLibrary == nil) {
-        _assetsLibrary = [[ALAssetsLibrary alloc] init];
-    }
-    return _assetsLibrary;
-}
-
 
 #pragma mark - IBAction methods
 
@@ -141,16 +131,7 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-        [context deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
-        
-        NSError *error = nil;
-        if (![context save:&error]) {
-            // Replace this implementation with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        }
+        [[self.fetchedResultsController objectAtIndexPath:indexPath] deletePhoto];
     }
 }
 
@@ -161,15 +142,31 @@
 }
 
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    QLPreviewController *previewController = [[QLPreviewController alloc] init];
+    previewController.dataSource = self;
+    previewController.delegate = self;
+    
+    // start previewing the document at the current section index
+    previewController.currentPreviewItemIndex = indexPath.row;
+    
+    [[self navigationController] pushViewController:previewController animated:YES];
+    [previewController release];
+}
+
+
 #pragma mark - Storyboard methods
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    /*
     if ([[segue identifier] isEqualToString:@"showPhoto"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         Photo *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
         [[segue destinationViewController] setThePhoto:object];
     }
+     */
 }
 
 #pragma mark - Fetched results controller
@@ -207,7 +204,7 @@
 	if (![self.fetchedResultsController performFetch:&error]) {
         // Replace this implementation with code to handle the error appropriately.
         // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+	    ALog(@"Unresolved error %@, %@", error, [error userInfo]);
 	    abort();
 	}
     
@@ -278,20 +275,17 @@
 {
     Photo *aPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = [aPhoto.title length] ? aPhoto.title : @"Photo sans titre";
-    cell.detailTextLabel.text = [aPhoto.timeStamp description];
-    [self.assetsLibrary assetForURL:aPhoto.assetUrl
-                        resultBlock:^(ALAsset *asset) {
-                            if (asset) {
-                                cell.imageView.image = [UIImage imageWithCGImage:[asset thumbnail]];
-                                [cell setNeedsLayout];
-                            }
-                            else {
-                                [aPhoto deletePhoto];
-                            }
-                        }
-                       failureBlock:^(NSError *error) {
-                           [aPhoto deletePhoto];
-                       }];
+    cell.detailTextLabel.text = [NSDateFormatter localizedStringFromDate:aPhoto.timeStamp
+                                                               dateStyle:NSDateFormatterMediumStyle
+                                                               timeStyle:NSDateFormatterMediumStyle];
+
+    if (aPhoto.thumbnailBookmark) {
+        cell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:aPhoto.thumbnailURL]
+                                                scale:[[UIScreen mainScreen] scale]];
+    }
+    else {
+        cell.imageView.image = [UIImage imageNamed:@"thumbnail-picto"];
+    }
 }
 
 
@@ -334,6 +328,7 @@
 - (void) imagePickerController: (UIImagePickerController *) picker
  didFinishPickingMediaWithInfo: (NSDictionary *) info
 {
+    NSDate *timestamp = [NSDate date];
     NSString *mediaType = [info objectForKey: UIImagePickerControllerMediaType];
     UIImage *originalImage, *editedImage, *imageToSave;
     
@@ -365,40 +360,70 @@
         }
         
         if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
-            // Retrieve Metadata
-            NSDictionary *originalMetadata = (NSDictionary *)[info objectForKey:UIImagePickerControllerMediaMetadata];
-
-            // Save the new image (original or edited) to the Camera Roll
-            ALAssetsLibrary *library = [[ALAssetsLibrary alloc] init];
-
-            [library writeImageToSavedPhotosAlbum:imageToSave.CGImage metadata:originalMetadata completionBlock:^(NSURL* assetURL, NSError* error) {
-                if (error.code == 0) {
-                    DLog(@"Photo URL: %@", assetURL);
-                    
-                    [Photo addPhotoWithAssetUrl:assetURL
-                                      timeStamp:[NSDate date]
-                                          title:nil
-                                       latitude:nil
-                                      longitude:nil
-                                        station:self.theStation];
-                }
-                else {
-                    DLog(@"Photo saved failled with error: %@", [error localizedDescription]);
-                    
-                    UIAlertView *saveAlert = [[UIAlertView alloc] initWithTitle:@"Erreur"
-                                                                        message:@"Sauvegarde impossible"
-                                                                       delegate:nil
-                                                              cancelButtonTitle:@"Ok"
-                                                              otherButtonTitles:nil];
-                    [saveAlert show];
-                    [saveAlert release];
-                }
-            }];
+            // Save photo in App Sandbox
+            Photo *aPhoto = [Photo addPhotoWithImage:imageToSave
+                                           timeStamp:timestamp
+                                               title:nil
+                                            latitude:nil
+                                           longitude:nil
+                                             station:self.theStation];
+            if (!aPhoto) {
+                // Notify the user about the error
+                UIAlertView *saveAlert = [[UIAlertView alloc] initWithTitle:@"Erreur"
+                                                                    message:@"Sauvegarde impossible"
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"Ok"
+                                                          otherButtonTitles:nil];
+                [saveAlert show];
+                [saveAlert release];
+            }
         }
     }
         
     [[picker presentingViewController] dismissViewControllerAnimated:YES completion:nil];
     [picker release];
+}
+
+
+#pragma mark - Other Private methods
+
+- (NSURL *)saveImage:(UIImage *)image usingDate:(NSDate *)date
+{
+    NSURL *savedUrl = nil;
+    
+    NSData *imageRepresentation = UIImageJPEGRepresentation(image, 1.0);
+    if (imageRepresentation) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyyMMddHHmmss"];
+        NSString *filename = [NSString stringWithFormat:@"Photo-%@", date];
+        [dateFormatter release];
+        
+        NSURL *baseUrl = [NSURL URLWithString:filename relativeToURL:[(AppDelegate *)[[UIApplication sharedApplication] delegate] applicationMediasDirectory]];
+        NSURL *targetUrl = [NSURL URLWithString:filename relativeToURL:baseUrl];
+        NSURL *targetUrlWithExt = [targetUrl URLByAppendingPathExtension:@"jpg"];
+        
+        if ([imageRepresentation writeToURL:targetUrlWithExt atomically:YES]) {
+            savedUrl = targetUrlWithExt;
+        }
+    }
+    
+    return savedUrl;
+}
+
+
+#pragma mark - QLPreviewControllerDataSource Protocol
+
+- (NSInteger) numberOfPreviewItemsInPreviewController: (QLPreviewController *) controller
+{
+    return [self.tableView numberOfRowsInSection:0];
+}
+
+- (id <QLPreviewItem>) previewController: (QLPreviewController *) controller previewItemAtIndex: (NSInteger) index
+{
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+    Photo *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+
+    return object;
 }
 
 @end
