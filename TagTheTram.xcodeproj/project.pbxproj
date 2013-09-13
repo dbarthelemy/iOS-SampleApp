@@ -29,12 +29,12 @@
 		635E3F9B17E089B700DD4466 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 635E3F9A17E089B700DD4466 /* MobileCoreServices.framework */; };
 		6380EE2317E0F7B100C381B7 /* Photo+CRUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6380EE2217E0F7B100C381B7 /* Photo+CRUD.m */; };
 		63EEC65317E3997500409C50 /* Station.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EEC65217E3997500409C50 /* Station.m */; };
-		63EEC65617E3997500409C50 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EEC65517E3997500409C50 /* Photo.m */; };
 		63EEC65917E39AF300409C50 /* UIImage+ProportionalFill.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EEC65817E39AF300409C50 /* UIImage+ProportionalFill.m */; };
 		63EEC65F17E39B8800409C50 /* UIImage+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EEC65E17E39B8800409C50 /* UIImage+Additions.m */; };
 		63EEC66417E3AF2C00409C50 /* thumbnail-picto.png in Resources */ = {isa = PBXBuildFile; fileRef = 63EEC66217E3AF2C00409C50 /* thumbnail-picto.png */; };
 		63EEC66517E3AF2C00409C50 /* thumbnail-picto@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63EEC66317E3AF2C00409C50 /* thumbnail-picto@2x.png */; };
 		63EEC66717E3B64A00409C50 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 63EEC66617E3B64A00409C50 /* Settings.bundle */; };
+		63EEC66A17E3BB3500409C50 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EEC66917E3BB3500409C50 /* Photo.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,8 +71,6 @@
 		6380EE2217E0F7B100C381B7 /* Photo+CRUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Photo+CRUD.m"; sourceTree = "<group>"; };
 		63EEC65117E3997500409C50 /* Station.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Station.h; sourceTree = "<group>"; };
 		63EEC65217E3997500409C50 /* Station.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Station.m; sourceTree = "<group>"; };
-		63EEC65417E3997500409C50 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
-		63EEC65517E3997500409C50 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
 		63EEC65717E39AF300409C50 /* UIImage+ProportionalFill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ProportionalFill.h"; sourceTree = "<group>"; };
 		63EEC65817E39AF300409C50 /* UIImage+ProportionalFill.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ProportionalFill.m"; sourceTree = "<group>"; };
 		63EEC65D17E39B8800409C50 /* UIImage+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Additions.h"; sourceTree = "<group>"; };
@@ -80,6 +78,8 @@
 		63EEC66217E3AF2C00409C50 /* thumbnail-picto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thumbnail-picto.png"; sourceTree = "<group>"; };
 		63EEC66317E3AF2C00409C50 /* thumbnail-picto@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thumbnail-picto@2x.png"; sourceTree = "<group>"; };
 		63EEC66617E3B64A00409C50 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		63EEC66817E3BB3500409C50 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
+		63EEC66917E3BB3500409C50 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,8 +179,8 @@
 				6329802A17DE68D600EE3B7A /* TagTheTram.xcdatamodeld */,
 				63EEC65117E3997500409C50 /* Station.h */,
 				63EEC65217E3997500409C50 /* Station.m */,
-				63EEC65417E3997500409C50 /* Photo.h */,
-				63EEC65517E3997500409C50 /* Photo.m */,
+				63EEC66817E3BB3500409C50 /* Photo.h */,
+				63EEC66917E3BB3500409C50 /* Photo.m */,
 				6329803317DE69A400EE3B7A /* Additions */,
 				6329803817DE6BFC00EE3B7A /* WebService */,
 			);
@@ -339,9 +339,9 @@
 				6340925A17DFCFDB00899368 /* CustomNavigationController.m in Sources */,
 				6380EE2317E0F7B100C381B7 /* Photo+CRUD.m in Sources */,
 				63EEC65317E3997500409C50 /* Station.m in Sources */,
-				63EEC65617E3997500409C50 /* Photo.m in Sources */,
 				63EEC65917E39AF300409C50 /* UIImage+ProportionalFill.m in Sources */,
 				63EEC65F17E39B8800409C50 /* UIImage+Additions.m in Sources */,
+				63EEC66A17E3BB3500409C50 /* Photo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

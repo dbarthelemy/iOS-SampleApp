@@ -101,8 +101,6 @@
 + (Photo *)addPhotoWithImage:(UIImage *)image
                    timeStamp:(NSDate *)timeStamp
                        title:(NSString *)title
-                    latitude:(NSNumber *)latitude
-                   longitude:(NSNumber *)longitude
                      station:(Station *)station
 {
     // Use the main CodeData context
@@ -111,8 +109,6 @@
     return [Photo addPhotoWithImage:image
                           timeStamp:timeStamp
                               title:title
-                           latitude:latitude
-                          longitude:longitude
                             station:station
              inManagedObjectContext:context];
 }
@@ -120,8 +116,6 @@
 + (Photo *)addPhotoWithImage:(UIImage *)image
                    timeStamp:(NSDate *)timeStamp
                        title:(NSString *)title
-                    latitude:(NSNumber *)latitude
-                   longitude:(NSNumber *)longitude
                      station:(Station *)station
       inManagedObjectContext:(NSManagedObjectContext *)context
 {
@@ -148,8 +142,6 @@
     photo.photoBookmark = photoBookmark;
     photo.timeStamp = timeStamp ? timeStamp : [NSDate date];
     photo.title = title ? title : @"";
-    photo.latitude = latitude ? latitude : @0.0;
-    photo.longitude = longitude ? longitude : @0.0;
     photo.thumbnailBookmark = nil;
     
     // Initialize relationships
@@ -166,7 +158,7 @@
         NSURL *thumbnailUrl = [Photo urlForSavedThumbnailUsingImage:image date:timeStamp];
         if (thumbnailUrl) {
             dispatch_async(dispatch_get_main_queue() , ^{
-                [photo updatePhotoWithTitle:nil latitude:nil longitude:nil thumbnailUrl:thumbnailUrl];
+                [photo updatePhotoWithTitle:nil thumbnailUrl:thumbnailUrl];
             });
         }
         else {
@@ -206,8 +198,6 @@
 #pragma mark - Update methods
 
 - (BOOL)updatePhotoWithTitle:(NSString *)title
-                    latitude:(NSNumber *)latitude
-                   longitude:(NSNumber *)longitude
                 thumbnailUrl:(NSURL *)thumbnailUrl;
 {
     BOOL wasUpdated = NO;
@@ -217,16 +207,6 @@
         wasUpdated = YES;
     }
     
-    if ((latitude) && (![self.latitude isEqualToNumber:latitude])) {
-        self.latitude = latitude;
-        wasUpdated = YES;
-    }
-    
-    if ((longitude) && (![self.longitude isEqualToNumber:longitude])) {
-        self.longitude = longitude;
-        wasUpdated = YES;
-    }
-
     NSData *bookmark = [Photo bookmarkForURL:thumbnailUrl];
     if ((bookmark) && (![bookmark isEqualToData:self.thumbnailBookmark])) {
         self.thumbnailBookmark = bookmark;

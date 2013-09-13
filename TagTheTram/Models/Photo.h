@@ -14,8 +14,6 @@
 @interface Photo : NSManagedObject
 
 @property (nonatomic, retain) NSData * photoBookmark;
-@property (nonatomic, retain) NSNumber * latitude;
-@property (nonatomic, retain) NSNumber * longitude;
 @property (nonatomic, retain) NSDate * timeStamp;
 @property (nonatomic, retain) NSString * title;
 @property (nonatomic, retain) NSData * thumbnailBookmark;

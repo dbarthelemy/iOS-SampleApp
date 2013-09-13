@@ -19,15 +19,11 @@
 + (Photo *)addPhotoWithImage:(UIImage *)image
                    timeStamp:(NSDate *)timeStamp
                        title:(NSString *)title
-                    latitude:(NSNumber *)latitude
-                   longitude:(NSNumber *)longitude
                      station:(Station *)station;
 
 + (Photo *)addPhotoWithImage:(UIImage *)image
                    timeStamp:(NSDate *)timeStamp
                        title:(NSString *)title
-                    latitude:(NSNumber *)latitude
-                   longitude:(NSNumber *)longitude
                      station:(Station *)station
       inManagedObjectContext:(NSManagedObjectContext *)context;
 
@@ -37,8 +33,6 @@
 
 // Update
 - (BOOL)updatePhotoWithTitle:(NSString *)title
-                    latitude:(NSNumber *)latitude
-                   longitude:(NSNumber *)longitude
                 thumbnailUrl:(NSURL *)thumbnailUrl;
 
 // Delete

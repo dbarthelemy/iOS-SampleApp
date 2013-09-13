@@ -13,8 +13,6 @@
 @implementation Photo
 
 @dynamic photoBookmark;
-@dynamic latitude;
-@dynamic longitude;
 @dynamic timeStamp;
 @dynamic title;
 @dynamic thumbnailBookmark;

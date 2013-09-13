@@ -364,8 +364,6 @@
             Photo *aPhoto = [Photo addPhotoWithImage:imageToSave
                                            timeStamp:timestamp
                                                title:nil
-                                            latitude:nil
-                                           longitude:nil
                                              station:self.theStation];
             if (!aPhoto) {
                 // Notify the user about the error
