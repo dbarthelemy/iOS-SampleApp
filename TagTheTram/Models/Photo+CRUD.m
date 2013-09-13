@@ -22,7 +22,8 @@
 
 @implementation Photo (CRUD_Private)
 
-+ (NSData*)bookmarkForURL:(NSURL*)url {
++ (NSData*)bookmarkForURL:(NSURL*)url
+{
     if (!url) {
         return nil;
     }
@@ -38,7 +39,8 @@
     return bookmark;
 }
 
-+ (NSURL*)urlForBookmark:(NSData*)bookmark {
++ (NSURL*)urlForBookmark:(NSData*)bookmark
+{
     if (!bookmark) {
         return nil;
     }
@@ -198,7 +200,7 @@
 #pragma mark - Update methods
 
 - (BOOL)updatePhotoWithTitle:(NSString *)title
-                thumbnailUrl:(NSURL *)thumbnailUrl;
+                thumbnailUrl:(NSURL *)thumbnailUrl
 {
     BOOL wasUpdated = NO;
     

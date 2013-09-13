@@ -130,6 +130,8 @@
     previewController.currentPreviewItemIndex = indexPath.row;
     
     [[self navigationController] pushViewController:previewController animated:YES];
+//    [self presentViewController:previewController animated:YES completion:nil];
+    
     [previewController release];
 }
 

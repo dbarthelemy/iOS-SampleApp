@@ -15,12 +15,15 @@
                          name:(NSString *)name
                      latitude:(NSNumber *)latitude
                     longitude:(NSNumber *)longitude
-       inManagedObjectContext:(NSManagedObjectContext *)context;
+       inManagedObjectContext:(NSManagedObjectContext *)context
+                  performSave:(BOOL)shallSave;
 
 // Update
 - (BOOL)updateStationWithName:(NSString *)name
                      latitude:(NSNumber *)latitude
-                    longitude:(NSNumber *)longitude;
+                    longitude:(NSNumber *)longitude
+                  performSave:(BOOL)shallSave;
+
 @end
 
 @implementation Station (CRUD_Private)
@@ -32,6 +35,7 @@
                      latitude:(NSNumber *)latitude
                     longitude:(NSNumber *)longitude
        inManagedObjectContext:(NSManagedObjectContext *)context
+                  performSave:(BOOL)shallSave
 {
     if ([remoteId length] == 0) {
         ALog(@"remoteId is empty");
@@ -51,10 +55,12 @@
     station.latitude = latitude;
     station.longitude = longitude;
     
-    NSError *error = nil;
-    if (![context save:&error]) {
-        ALog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
+    if (shallSave) {
+        NSError *error = nil;
+        if (![context save:&error]) {
+            ALog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
     }
     
     return station;
@@ -66,6 +72,7 @@
 - (BOOL)updateStationWithName:(NSString *)name
                      latitude:(NSNumber *)latitude
                     longitude:(NSNumber *)longitude
+                  performSave:(BOOL)shallSave
 {
     BOOL wasUpdated = NO;
     
@@ -84,7 +91,7 @@
         wasUpdated = YES;
     }
 
-    if (wasUpdated) {
+    if ((wasUpdated) && (shallSave)) {
         NSError *error = nil;
         if (![self.managedObjectContext save:&error]) {
             ALog(@"Unresolved error %@, %@", error, [error userInfo]);
@@ -113,14 +120,16 @@
                           name:name
                       latitude:latitude
                      longitude:longitude
-        inManagedObjectContext:context];
+        inManagedObjectContext:context
+                   performSave:YES];
 }
 
 + (Station *)stationWithId:(NSString *)remoteId
                       name:(NSString *)name
                   latitude:(NSNumber *)latitude
                  longitude:(NSNumber *)longitude
-    inManagedObjectContext:(NSManagedObjectContext *)context;
+    inManagedObjectContext:(NSManagedObjectContext *)context
+               performSave:(BOOL)shallSave
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entityDescriptor = [NSEntityDescription entityForName:@"Station" inManagedObjectContext:context];
@@ -138,15 +147,16 @@
                                        name:(NSString *)name
                                    latitude:(NSNumber *)latitude
                                   longitude:(NSNumber *)longitude
-                     inManagedObjectContext:(NSManagedObjectContext *)context];
+                     inManagedObjectContext:(NSManagedObjectContext *)context
+                                performSave:shallSave];
     }
     else {
         // Update the exist Station in local database
         station = [fetchedItem objectAtIndex:0];
         [station updateStationWithName:(NSString *)name
                               latitude:(NSNumber *)latitude
-                             longitude:(NSNumber *)longitude];
-        
+                             longitude:(NSNumber *)longitude
+                           performSave:shallSave];
     }
     
     [fetchRequest release];

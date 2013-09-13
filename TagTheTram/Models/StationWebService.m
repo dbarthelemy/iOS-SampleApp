@@ -7,7 +7,10 @@
 //
 
 #import "StationWebService.h"
+#import "AppDelegate.h"
 #import "Station+CRUD.h"
+
+#define kSaveBatchSize 20
 
 static StationWebService *_sharedInstance = nil;
 
@@ -105,6 +108,19 @@ static StationWebService *_sharedInstance = nil;
                                     NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
                                     [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
                                     
+                                    // Create a dedicated managed object context
+                                    NSManagedObjectContext *managedObjectContext = [[[NSManagedObjectContext alloc] init] autorelease];
+                                    [managedObjectContext setUndoManager:nil];
+                                    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+                                    [managedObjectContext setPersistentStoreCoordinator:appDelegate.persistentStoreCoordinator];
+                                    NSInteger batchSize = kSaveBatchSize;
+                                    
+                                    // Register to merge changes on the main thread
+                                    [[NSNotificationCenter defaultCenter] addObserver:self
+                                                                             selector:@selector(mergeChanges:)
+                                                                                 name:NSManagedObjectContextDidSaveNotification
+                                                                               object:managedObjectContext];
+                                    
                                     for (NSString *eachKey in responseDictionary) {
                                         id eachGroupObject = [responseDictionary objectForKey:eachKey];
                                         if ([eachGroupObject isKindOfClass:[NSArray class]]) {
@@ -137,12 +153,18 @@ static StationWebService *_sharedInstance = nil;
                                                                     ([theTown isEqualToString:@"MONTPELLIER"])) {
                                                                     isValidFormat = YES; // We consider valid format if at least one entry is properly decoded.
                                                                     
-                                                                    dispatch_async(dispatch_get_main_queue() , ^{
-                                                                        [Station stationWithId:eachId
-                                                                                          name:eachName
-                                                                                      latitude:eachLatitude
-                                                                                     longitude:eachLongitude];
-                                                                    });
+                                                                    BOOL shallSave = (batchSize > 0) ? NO : YES;
+                                                                    
+                                                                    [Station stationWithId:eachId
+                                                                                      name:eachName
+                                                                                  latitude:eachLatitude
+                                                                                 longitude:eachLongitude
+                                                                    inManagedObjectContext:managedObjectContext
+                                                                               performSave:shallSave];
+                                                                    
+                                                                    if (batchSize-- == 0) {
+                                                                        batchSize = kSaveBatchSize;
+                                                                    }
                                                                 }
                                                             }
                                                         }
@@ -151,6 +173,16 @@ static StationWebService *_sharedInstance = nil;
                                             }
                                         }
                                     }
+
+                                    if ((isValidFormat) && (batchSize < kSaveBatchSize)) {
+                                        // Perform a latest save
+                                        NSError *error = nil;
+                                        if (![managedObjectContext save:&error]) {
+                                            ALog(@"Unresolved error %@, %@", error, [error userInfo]);
+                                            abort();
+                                        }
+                                    }
+                                    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSManagedObjectContextDidSaveNotification object:nil];
                                 }
                             }
                         }
@@ -189,6 +221,16 @@ static StationWebService *_sharedInstance = nil;
         });
     }
     return self.isRunning;
+}
+
+- (void)mergeChanges:(NSNotification *)notification
+{
+    dispatch_async(dispatch_get_main_queue() , ^{
+        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        NSManagedObjectContext *mainContext = appDelegate.managedObjectContext;
+        
+        [mainContext mergeChangesFromContextDidSaveNotification:notification];
+    });
 }
 
 @end

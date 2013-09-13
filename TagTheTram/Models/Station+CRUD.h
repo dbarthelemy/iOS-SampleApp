@@ -22,7 +22,8 @@
                       name:(NSString *)name
                   latitude:(NSNumber *)latitude
                  longitude:(NSNumber *)longitude
-    inManagedObjectContext:(NSManagedObjectContext *)context;
+    inManagedObjectContext:(NSManagedObjectContext *)context
+               performSave:(BOOL)shallSave;
 
 - (NSString *)photoCounterString;
 
