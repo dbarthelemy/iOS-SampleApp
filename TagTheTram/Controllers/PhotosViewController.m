@@ -69,7 +69,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    self.fetchedResultsController = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super viewWillDisappear:animated];
 }

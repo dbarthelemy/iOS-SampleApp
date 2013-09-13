@@ -11,8 +11,6 @@
 #import "Station+CRUD.h"
 
 @interface StationsViewController ()
-@property (nonatomic, retain) Station *selectedStation;
-
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 @end
 
@@ -20,7 +18,6 @@
 
 - (void)dealloc
 {
-    [_selectedStation release];
     [_fetchedResultsController release];
     [_managedObjectContext release];
     [super dealloc];
@@ -46,22 +43,6 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    if (self.selectedStation) {
-        // Make sure the photo counter is up to date for the Station
-        NSIndexPath *indexPath = [self.fetchedResultsController indexPathForObject:self.selectedStation];
-        [self.tableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-        self.selectedStation = nil;
-    }
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    self.fetchedResultsController = nil;
-    [super viewWillDisappear:animated];
 }
 
 
@@ -100,9 +81,9 @@
 {
     if ([[segue identifier] isEqualToString:@"showStation"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        self.selectedStation = [[self fetchedResultsController] objectAtIndexPath:indexPath];
+        Station *aStation = [[self fetchedResultsController] objectAtIndexPath:indexPath];
         [[segue destinationViewController] setManagedObjectContext:self.managedObjectContext];
-        [[segue destinationViewController] setTheStation:self.selectedStation];
+        [[segue destinationViewController] setTheStation:aStation];
     }
 }
 
