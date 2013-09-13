@@ -75,6 +75,7 @@ static StationWebService *_sharedInstance = nil;
     }
     else {
         self.isRunning = YES;
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSURL *restApiUrl = [NSURL URLWithString:@"http://modulaweb.fr/apitam/?request=getStopsList&fullInfos=1"];
@@ -183,6 +184,7 @@ static StationWebService *_sharedInstance = nil;
                     }
                 }
             }
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
             self.isRunning = NO;
         });
     }

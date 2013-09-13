@@ -12,6 +12,8 @@
 
 @interface AppDelegate ()
 @property (nonatomic, retain) NSURL *applicationMediasDirectory;
+
+- (void)handleSettingBundle;
 @end
 
 @implementation AppDelegate
@@ -33,6 +35,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    [self handleSettingBundle];
+
     UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
     StationsViewController *controller = (StationsViewController *)navigationController.topViewController;
     controller.managedObjectContext = self.managedObjectContext;

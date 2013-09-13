@@ -34,6 +34,7 @@
 		63EEC65F17E39B8800409C50 /* UIImage+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EEC65E17E39B8800409C50 /* UIImage+Additions.m */; };
 		63EEC66417E3AF2C00409C50 /* thumbnail-picto.png in Resources */ = {isa = PBXBuildFile; fileRef = 63EEC66217E3AF2C00409C50 /* thumbnail-picto.png */; };
 		63EEC66517E3AF2C00409C50 /* thumbnail-picto@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63EEC66317E3AF2C00409C50 /* thumbnail-picto@2x.png */; };
+		63EEC66717E3B64A00409C50 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 63EEC66617E3B64A00409C50 /* Settings.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +79,7 @@
 		63EEC65E17E39B8800409C50 /* UIImage+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Additions.m"; sourceTree = "<group>"; };
 		63EEC66217E3AF2C00409C50 /* thumbnail-picto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thumbnail-picto.png"; sourceTree = "<group>"; };
 		63EEC66317E3AF2C00409C50 /* thumbnail-picto@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thumbnail-picto@2x.png"; sourceTree = "<group>"; };
+		63EEC66617E3B64A00409C50 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +157,7 @@
 				6329800817DE624200EE3B7A /* Default.png */,
 				6329800A17DE624200EE3B7A /* Default@2x.png */,
 				6329800C17DE624200EE3B7A /* Default-568h@2x.png */,
+				63EEC66617E3B64A00409C50 /* Settings.bundle */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -315,6 +318,7 @@
 				6329801017DE624200EE3B7A /* MainStoryboard.storyboard in Resources */,
 				63EEC66417E3AF2C00409C50 /* thumbnail-picto.png in Resources */,
 				63EEC66517E3AF2C00409C50 /* thumbnail-picto@2x.png in Resources */,
+				63EEC66717E3B64A00409C50 /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
