@@ -183,6 +183,7 @@ static StationWebService *_sharedInstance = nil;
                                         }
                                     }
                                     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSManagedObjectContextDidSaveNotification object:nil];
+                                    [numberFormatter release];
                                 }
                             }
                         }
