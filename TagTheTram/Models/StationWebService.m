@@ -10,7 +10,7 @@
 #import "AppDelegate.h"
 #import "Station+CRUD.h"
 
-#define kSaveBatchSize 20
+#define kSaveBatchSize 2
 
 static StationWebService *_sharedInstance = nil;
 

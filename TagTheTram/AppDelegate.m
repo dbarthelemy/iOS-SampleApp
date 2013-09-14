@@ -100,6 +100,7 @@
     if (coordinator != nil) {
         _managedObjectContext = [[NSManagedObjectContext alloc] init];
         [_managedObjectContext setPersistentStoreCoordinator:coordinator];
+        [_managedObjectContext setUndoManager:nil]; // The undo manager is not required by this App.
     }
     return _managedObjectContext;
 }
