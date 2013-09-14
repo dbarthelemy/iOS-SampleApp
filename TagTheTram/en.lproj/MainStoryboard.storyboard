@@ -210,10 +210,10 @@
             </objects>
             <point key="canvasLocation" x="1046" y="64"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Custom Navigation Controller-->
         <scene sceneID="i5P-xr-aes">
             <objects>
-                <navigationController toolbarHidden="NO" id="jT9-x2-G40" sceneMemberID="viewController">
+                <navigationController toolbarHidden="NO" id="jT9-x2-G40" customClass="CustomNavigationController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="IAC-ln-eok">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
