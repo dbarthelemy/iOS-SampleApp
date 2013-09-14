@@ -255,7 +255,7 @@
     
     [context deleteObject:self];
     
-    NSError *error;
+    NSError *error = nil;
     if (![context save:&error]) {
         ALog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();

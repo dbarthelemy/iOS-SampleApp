@@ -66,12 +66,11 @@ static StationWebService *_sharedInstance = nil;
 - (BOOL)fetchStations
 {
     /*
-     * Given the low complexity of the Web Service, here is a straitforward implementation which give good performances (e.g. no need for a secondary 
-     *  NSMAnagedObjectContext and associated merge as all CRUD operations are executed on the main thread) and responsiveness (thanks to GCD usage)
-     *  without being too much complex.
+     * Given the low complexity of the Web Service, here is a straitforward implementation which give good enough performances
+     *  and responsiveness without being too much complex.
      *
-     * For more advanced features (Authentication, Security, Download Progress) a NSURLConnection would be required in place of this basic approach.
-     * I would be please to share with you my coding techniques for such use-cases.
+     * For more advanced features (Authentication, Security, Stream, Download/Upload Progress, Resumable Upload) a NSURLConnection 
+     *  would be required in place of this basic approach. I would be please to share with you my coding techniques for such use-cases.
      */
     if (self.isRunning) {
         return YES;

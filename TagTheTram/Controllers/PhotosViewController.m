@@ -144,13 +144,6 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    /*
-    if ([[segue identifier] isEqualToString:@"showPhoto"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        Photo *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
-        [[segue destinationViewController] setThePhoto:object];
-    }
-     */
 }
 
 #pragma mark - Fetched results controller
