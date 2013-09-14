@@ -69,7 +69,6 @@
 		6329800817DE624200EE3B7A /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		6329800A17DE624200EE3B7A /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		6329800C17DE624200EE3B7A /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		6329800F17DE624200EE3B7A /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
 		6329802317DE68BC00EE3B7A /* PhotosViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotosViewController.h; sourceTree = "<group>"; };
 		6329802517DE68BC00EE3B7A /* StationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StationsViewController.h; sourceTree = "<group>"; };
 		6329802617DE68BC00EE3B7A /* StationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StationsViewController.m; sourceTree = "<group>"; };
@@ -86,6 +85,9 @@
 		63560FD117E49A5800693A47 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		63560FD417E49F5800693A47 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		63560FD617E4A7BB00693A47 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		63560FD917E4D19C00693A47 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		63560FDA17E4D1AA00693A47 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = fr; path = fr.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		63560FDB17E4D1AA00693A47 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		635E3F9A17E089B700DD4466 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		636EB56917E4493C00D8814A /* thumbnail-frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thumbnail-frame.png"; sourceTree = "<group>"; };
 		636EB56A17E4493C00D8814A /* thumbnail-frame@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thumbnail-frame@2x.png"; sourceTree = "<group>"; };
@@ -365,6 +367,8 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
+				fr,
 			);
 			mainGroup = 63297FE817DE624200EE3B7A;
 			productRefGroup = 63297FF217DE624200EE3B7A /* Products */;
@@ -436,6 +440,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				6329800017DE624200EE3B7A /* en */,
+				63560FDB17E4D1AA00693A47 /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -443,7 +448,8 @@
 		6329800E17DE624200EE3B7A /* MainStoryboard.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				6329800F17DE624200EE3B7A /* en */,
+				63560FD917E4D19C00693A47 /* Base */,
+				63560FDA17E4D1AA00693A47 /* fr */,
 			);
 			name = MainStoryboard.storyboard;
 			path = ..;

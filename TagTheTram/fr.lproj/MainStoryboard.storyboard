@@ -80,7 +80,7 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="ELL-t0-r2j"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Tag The Tram !" id="36">
-                        <barButtonItem key="backBarButtonItem" title="Tram" id="Kh6-JV-ULa"/>
+                        <barButtonItem key="backBarButtonItem" title="Liste" id="Kh6-JV-ULa"/>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
@@ -118,6 +118,7 @@
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="tz2-l3-pfD"/>
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Tag The Tram !" id="DuZ-fP-sE1">
+                        <barButtonItem key="backBarButtonItem" title="Carte" id="6vA-rZ-vFT"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="search" id="G3T-2v-iQy">
                             <connections>
                                 <action selector="showUserLocationAction:" destination="d0E-y2-AD8" id="deR-kW-Hkb"/>
@@ -199,7 +200,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Station.name" id="Zax-rw-oI9">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="NW9-NH-y3P">
+                        <barButtonItem key="rightBarButtonItem" systemItem="camera" id="NW9-NH-y3P">
                             <connections>
                                 <action selector="addPhotoAction:" destination="5cc-08-Vbj" id="neN-Zv-AuJ"/>
                             </connections>
