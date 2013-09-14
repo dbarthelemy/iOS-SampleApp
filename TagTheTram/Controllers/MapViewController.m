@@ -8,6 +8,7 @@
 
 #import "MapViewController.h"
 #import <MapKit/MapKit.h>
+#import "PhotosViewController.h"
 #import "Station+CRUD.h"
 
 @interface MapViewController () <NSFetchedResultsControllerDelegate, MKMapViewDelegate>
@@ -86,9 +87,16 @@
     [self.stationMapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
 }
 
-- (IBAction)myShowPhotosMethod:(UIButton *)sender
+
+#pragma mark - Storyboard methods
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    // FIXME
+    if ([[segue identifier] isEqualToString:@"showStation"]) {
+        Station *aStation = [(MKAnnotationView *)sender annotation];
+        [[segue destinationViewController] setManagedObjectContext:self.managedObjectContext];
+        [[segue destinationViewController] setTheStation:aStation];
+    }
 }
 
 
@@ -183,9 +191,6 @@
 			
             // Add a detail disclosure button to the callout.
             UIButton* rightButton = [UIButton buttonWithType: UIButtonTypeDetailDisclosure];
-            [rightButton addTarget:self
-                            action:@selector(myShowPhotosMethod:)
-                  forControlEvents:UIControlEventTouchUpInside];
             pinView.rightCalloutAccessoryView = rightButton;
         }
         else
@@ -195,6 +200,11 @@
     }
 	
     return nil;
+}
+
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+{
+    [self performSegueWithIdentifier:@"showStation" sender:view];
 }
 
 @end
