@@ -9,8 +9,11 @@
 #import "StationsViewController.h"
 #import "PhotosViewController.h"
 #import "Station+CRUD.h"
+#import "StationWebService.h"
 
-@interface StationsViewController ()
+@interface StationsViewController () <StationWebServiceDelegate, UIAlertViewDelegate>
+@property (nonatomic, retain) UIAlertView *networkAlertView;
+
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 @end
 
@@ -18,8 +21,11 @@
 
 - (void)dealloc
 {
+    [[StationWebService sharedInstance] setDelegate:nil];
+    
     [_fetchedResultsController release];
     [_managedObjectContext release];
+    [_networkAlertView release];
     [super dealloc];
 }
 
@@ -27,6 +33,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    [[StationWebService sharedInstance] setDelegate:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -43,6 +50,15 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    if (self.networkAlertView) {
+        [self.networkAlertView dismissWithClickedButtonIndex:[self.networkAlertView cancelButtonIndex] animated:YES];
+        self.networkAlertView = nil;
+    }
+    [super viewWillDisappear:animated];
 }
 
 
@@ -192,6 +208,40 @@
     Station *aStation = [self.fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = aStation.name;
     cell.detailTextLabel.text = [aStation photoCounterString];
+}
+
+
+#pragma mark - StationWebServiceDelegate Protocol
+
+- (void)fetchStationsDidFailedWithError:(NSError *)error
+{
+    ALog(@"Error from the Web Service: %@", error.localizedDescription);
+    
+    if (([[self.fetchedResultsController fetchedObjects] count] == 0) && (!self.networkAlertView)) {
+        // Notify the user about the network error only if the list is empty
+        UIAlertView *anAlert = [[UIAlertView alloc] initWithTitle:@"Erreur"
+                                                          message:@"Récupération de la liste impossible"
+                                                         delegate:self
+                                                cancelButtonTitle:@"Annuler"
+                                                otherButtonTitles:@"Réessayer", nil];
+        self.networkAlertView = anAlert;
+        [anAlert show];
+        [anAlert release];
+    }
+}
+
+
+#pragma mark - UIAlertViewDelegate methods
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView == self.networkAlertView) {
+        if (buttonIndex != [alertView cancelButtonIndex]) {
+            // Retry
+            [[StationWebService sharedInstance] fetchStations];
+        }
+        self.networkAlertView = nil;
+    }
 }
 
 @end
