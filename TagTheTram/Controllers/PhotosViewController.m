@@ -11,6 +11,7 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <QuickLook/QuickLook.h>
 #import "Photo+CRUD.h"
+#import "PhotoCell.h"
 
 @interface PhotosViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, QLPreviewControllerDataSource, QLPreviewControllerDelegate>
 - (void)configureView;
@@ -253,18 +254,20 @@
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
+    PhotoCell *aPhotoCell = (PhotoCell *)cell;
+    
     Photo *aPhoto = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = [aPhoto.title length] ? aPhoto.title : @"Photo sans titre";
-    cell.detailTextLabel.text = [NSDateFormatter localizedStringFromDate:aPhoto.timeStamp
-                                                               dateStyle:NSDateFormatterMediumStyle
-                                                               timeStyle:NSDateFormatterMediumStyle];
-
+    aPhotoCell.titleLabel.text = [aPhoto.title length] ? aPhoto.title : @"Photo sans titre";
+    aPhotoCell.timestampLabel.text = [NSDateFormatter localizedStringFromDate:aPhoto.timeStamp
+                                                                    dateStyle:NSDateFormatterMediumStyle
+                                                                    timeStyle:NSDateFormatterMediumStyle];
+    
     if (aPhoto.thumbnailBookmark) {
-        cell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:aPhoto.thumbnailURL]
-                                                scale:[[UIScreen mainScreen] scale]];
+        aPhotoCell.thumbnailImageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:aPhoto.thumbnailURL]
+                                                               scale:[[UIScreen mainScreen] scale]];
     }
     else {
-        cell.imageView.image = [UIImage imageNamed:@"thumbnail-picto"];
+        aPhotoCell.thumbnailImageView.image = [UIImage imageNamed:@"thumbnail-picto"];
     }
 }
 

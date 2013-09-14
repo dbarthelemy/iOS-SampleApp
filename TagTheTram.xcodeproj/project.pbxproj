@@ -27,6 +27,9 @@
 		6340925417DFC60D00899368 /* PhotosViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6340925317DFC60D00899368 /* PhotosViewController.m */; };
 		6340925A17DFCFDB00899368 /* CustomNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6340925917DFCFDB00899368 /* CustomNavigationController.m */; };
 		635E3F9B17E089B700DD4466 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 635E3F9A17E089B700DD4466 /* MobileCoreServices.framework */; };
+		636EB56B17E4493C00D8814A /* thumbnail-frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 636EB56917E4493C00D8814A /* thumbnail-frame.png */; };
+		636EB56C17E4493C00D8814A /* thumbnail-frame@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 636EB56A17E4493C00D8814A /* thumbnail-frame@2x.png */; };
+		636EB57317E44C8300D8814A /* PhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 636EB57217E44C8300D8814A /* PhotoCell.m */; };
 		6380EE2317E0F7B100C381B7 /* Photo+CRUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6380EE2217E0F7B100C381B7 /* Photo+CRUD.m */; };
 		63EEC65317E3997500409C50 /* Station.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EEC65217E3997500409C50 /* Station.m */; };
 		63EEC65917E39AF300409C50 /* UIImage+ProportionalFill.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EEC65817E39AF300409C50 /* UIImage+ProportionalFill.m */; };
@@ -67,6 +70,10 @@
 		6340925817DFCFDB00899368 /* CustomNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationController.h; sourceTree = "<group>"; };
 		6340925917DFCFDB00899368 /* CustomNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationController.m; sourceTree = "<group>"; };
 		635E3F9A17E089B700DD4466 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		636EB56917E4493C00D8814A /* thumbnail-frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thumbnail-frame.png"; sourceTree = "<group>"; };
+		636EB56A17E4493C00D8814A /* thumbnail-frame@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thumbnail-frame@2x.png"; sourceTree = "<group>"; };
+		636EB57117E44C8300D8814A /* PhotoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoCell.h; sourceTree = "<group>"; };
+		636EB57217E44C8300D8814A /* PhotoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoCell.m; sourceTree = "<group>"; };
 		6380EE2117E0F7B100C381B7 /* Photo+CRUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Photo+CRUD.h"; sourceTree = "<group>"; };
 		6380EE2217E0F7B100C381B7 /* Photo+CRUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Photo+CRUD.m"; sourceTree = "<group>"; };
 		63EEC65117E3997500409C50 /* Station.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Station.h; sourceTree = "<group>"; };
@@ -136,6 +143,7 @@
 			children = (
 				6329800517DE624200EE3B7A /* AppDelegate.h */,
 				6329800617DE624200EE3B7A /* AppDelegate.m */,
+				636EB57017E44C8300D8814A /* Views */,
 				6329802217DE68BC00EE3B7A /* Controllers */,
 				6329800E17DE624200EE3B7A /* MainStoryboard.storyboard */,
 				6329802917DE68D600EE3B7A /* Models */,
@@ -216,6 +224,15 @@
 			path = "External Files";
 			sourceTree = "<group>";
 		};
+		636EB57017E44C8300D8814A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				636EB57117E44C8300D8814A /* PhotoCell.h */,
+				636EB57217E44C8300D8814A /* PhotoCell.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		63EEC65A17E39AFB00409C50 /* Subclasses */ = {
 			isa = PBXGroup;
 			children = (
@@ -254,6 +271,8 @@
 		63EEC66117E3AF2C00409C50 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				636EB56917E4493C00D8814A /* thumbnail-frame.png */,
+				636EB56A17E4493C00D8814A /* thumbnail-frame@2x.png */,
 				63EEC66217E3AF2C00409C50 /* thumbnail-picto.png */,
 				63EEC66317E3AF2C00409C50 /* thumbnail-picto@2x.png */,
 			);
@@ -319,6 +338,8 @@
 				63EEC66417E3AF2C00409C50 /* thumbnail-picto.png in Resources */,
 				63EEC66517E3AF2C00409C50 /* thumbnail-picto@2x.png in Resources */,
 				63EEC66717E3B64A00409C50 /* Settings.bundle in Resources */,
+				636EB56B17E4493C00D8814A /* thumbnail-frame.png in Resources */,
+				636EB56C17E4493C00D8814A /* thumbnail-frame@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,6 +363,7 @@
 				63EEC65917E39AF300409C50 /* UIImage+ProportionalFill.m in Sources */,
 				63EEC65F17E39B8800409C50 /* UIImage+Additions.m in Sources */,
 				63EEC66A17E3BB3500409C50 /* Photo.m in Sources */,
+				636EB57317E44C8300D8814A /* PhotoCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
