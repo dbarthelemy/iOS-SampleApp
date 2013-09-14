@@ -8,6 +8,7 @@
 
 #import "Station+CRUD.h"
 #import "AppDelegate.h"
+#import <CoreLocation/CoreLocation.h>
 
 @interface Station (CRUD_Private)
 // Create
@@ -171,6 +172,33 @@
     }
     else {
         return [NSString stringWithFormat:@"%u", [self.photos count]];
+    }
+}
+
+
+#pragma mark - MKAnnotation protocol
+
+- (CLLocationCoordinate2D)coordinate
+{
+    return CLLocationCoordinate2DMake([self.latitude doubleValue], [self.longitude doubleValue]);
+}
+
+- (NSString *)title
+{
+    return self.name;
+}
+
+- (NSString *)subtitle
+{
+    NSUInteger counter = [self.photos count];
+    if (counter == 0) {
+        return @"Aucune photo";
+    }
+    else if (counter == 1) {
+        return @"Une Photo";
+    }
+    else {
+        return [NSString stringWithFormat:@"%u Photos", counter];
     }
 }
 

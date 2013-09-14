@@ -106,7 +106,8 @@ static StationWebService *_sharedInstance = nil;
                                     //
                                     NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
                                     [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
-                                    
+                                    [numberFormatter setDecimalSeparator:@"."];
+
                                     // Create a dedicated managed object context
                                     NSManagedObjectContext *managedObjectContext = [[[NSManagedObjectContext alloc] init] autorelease];
                                     [managedObjectContext setUndoManager:nil];
@@ -140,8 +141,8 @@ static StationWebService *_sharedInstance = nil;
                                                                 NSDictionary *eachStationDescriptionDictionary = (NSDictionary *)eachStationDescriptionObject;
                                                                 NSString *eachId = [eachStationDescriptionDictionary objectForKey:@"id"];
                                                                 NSString *eachName = [eachStationDescriptionDictionary objectForKey:@"name"];
-                                                                NSString *eachLatitudeStr = [eachStationDescriptionDictionary objectForKey:@"latitude"];
-                                                                NSString *eachLongitudeStr = [eachStationDescriptionDictionary objectForKey:@"longitude"];
+                                                                NSString *eachLatitudeStr = [eachStationDescriptionDictionary objectForKey:@"lat"];
+                                                                NSString *eachLongitudeStr = [eachStationDescriptionDictionary objectForKey:@"lon"];
                                                                 NSString *theTown = [[eachStationDescriptionDictionary objectForKey:@"town"] uppercaseString];
                                                                 
                                                                 NSNumber *eachLatitude = [numberFormatter numberFromString:eachLatitudeStr];

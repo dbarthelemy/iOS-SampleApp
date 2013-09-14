@@ -8,6 +8,7 @@
 
 #import "MapViewController.h"
 #import <MapKit/MapKit.h>
+#import "Station+CRUD.h"
 
 @interface MapViewController () <NSFetchedResultsControllerDelegate, MKMapViewDelegate>
 @property (retain, nonatomic) NSFetchedResultsController *fetchedResultsController;
@@ -40,15 +41,30 @@
 	// Do any additional setup after loading the view.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    // Set the initial Region
+    MKCoordinateRegion initialRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(43.610873, 3.876704),
+                                                              MKCoordinateSpanMake(0.02, 0.02));
+    [self.stationMapView setRegion:initialRegion animated:NO];
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
+    // Add annotations
+    [self.stationMapView addAnnotations:self.fetchedResultsController.fetchedObjects];
     [super viewDidAppear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    self.stationMapView.showsUserLocation = NO;
     [self.stationMapView setUserTrackingMode:MKUserTrackingModeNone animated:NO];
+    self.stationMapView.showsUserLocation = NO;
+}
+
+- (void)viewDidUnload {
+    [self setStationMapView:nil];
+    [super viewDidUnload];
 }
 
 - (void)didReceiveMemoryWarning
@@ -68,6 +84,11 @@
 - (IBAction)showUserLocationAction:(UIBarButtonItem *)sender
 {
     [self.stationMapView setUserTrackingMode:MKUserTrackingModeFollow animated:YES];
+}
+
+- (IBAction)myShowPhotosMethod:(UIButton *)sender
+{
+    // FIXME
 }
 
 
@@ -110,68 +131,70 @@
     return _fetchedResultsController;
 }
 
-- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
-{
-//    [self.tableView beginUpdates]; // FIXME
-}
-
-- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
-           atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
-{
-    switch(type) {
-        case NSFetchedResultsChangeInsert:
-//            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade]; // FIXME
-            break;
-            
-        case NSFetchedResultsChangeDelete:
-//            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade]; // FIXME
-            break;
-    }
-}
-
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
        atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
       newIndexPath:(NSIndexPath *)newIndexPath
 {
-//    UITableView *tableView = self.tableView; // FIXME
     
     switch(type) {
         case NSFetchedResultsChangeInsert:
-//            [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade]; // FIXME
+            [self.stationMapView addAnnotation:anObject];
             break;
             
         case NSFetchedResultsChangeDelete:
-//            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade]; // FIXME
+            [self.stationMapView removeAnnotation:anObject];
             break;
             
         case NSFetchedResultsChangeUpdate:
-//            [self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath]; // FIXME
+            [self.stationMapView removeAnnotation:anObject];
+            [self.stationMapView addAnnotation:anObject];
             break;
             
         case NSFetchedResultsChangeMove:
-//            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade]; // FIXME
-//            [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade]; // FIXME
+            [self.stationMapView removeAnnotation:anObject];
+            [self.stationMapView addAnnotation:anObject];
             break;
     }
 }
 
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+
+#pragma mark - MKMapViewDelegate Protocol
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id < MKAnnotation >)annotation
 {
-//    [self.tableView endUpdates]; // FIXME
+    // If it's the user location, just return nil.
+    if ([annotation isKindOfClass:[MKUserLocation class]])
+        return nil;
+	
+    // Handle any custom annotations.
+    if ([annotation isKindOfClass:[Station class]])
+    {
+        // Try to dequeue an existing pin view first.
+        MKPinAnnotationView* pinView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"StationPinAnnotationView"];
+		
+        if (!pinView)
+        {
+            // If an existing pin view was not available, create one.
+			pinView = [[[MKPinAnnotationView alloc] initWithAnnotation:annotation
+													   reuseIdentifier:@"StationPinAnnotationView"] autorelease];
+            pinView.pinColor = MKPinAnnotationColorPurple;
+            pinView.animatesDrop = YES;
+            pinView.canShowCallout = YES;
+			
+            // Add a detail disclosure button to the callout.
+            UIButton* rightButton = [UIButton buttonWithType: UIButtonTypeDetailDisclosure];
+            [rightButton addTarget:self
+                            action:@selector(myShowPhotosMethod:)
+                  forControlEvents:UIControlEventTouchUpInside];
+            pinView.rightCalloutAccessoryView = rightButton;
+        }
+        else
+            pinView.annotation = annotation;
+		
+        return pinView;
+    }
+	
+    return nil;
 }
 
-/*
- // Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed.
- 
- - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
- {
- // In the simplest, most efficient, case, reload the table view.
- [self.tableView reloadData];
- }
- */
-
-- (void)viewDidUnload {
-    [self setStationMapView:nil];
-    [super viewDidUnload];
-}
 @end

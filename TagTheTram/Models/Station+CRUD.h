@@ -7,12 +7,13 @@
 //
 
 #import "Station.h"
+#import <MapKit/MapKit.h>
 
-@interface Station (CRUD)
+@interface Station (CRUD) <MKAnnotation>
 
 // Create (Private)
 
-// Read
+// Read (also refer to <MKAnnotation>)
 + (Station *)stationWithId:(NSString *)remoteId
                       name:(NSString *)name
                   latitude:(NSNumber *)latitude

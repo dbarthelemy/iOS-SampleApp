@@ -28,6 +28,7 @@
 		6340925A17DFCFDB00899368 /* CustomNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6340925917DFCFDB00899368 /* CustomNavigationController.m */; };
 		63560FD217E49A5800693A47 /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63560FD117E49A5800693A47 /* MapViewController.m */; };
 		63560FD517E49F5800693A47 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63560FD417E49F5800693A47 /* MapKit.framework */; };
+		63560FD717E4A7BB00693A47 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63560FD617E4A7BB00693A47 /* CoreLocation.framework */; };
 		635E3F9B17E089B700DD4466 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 635E3F9A17E089B700DD4466 /* MobileCoreServices.framework */; };
 		636EB56B17E4493C00D8814A /* thumbnail-frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 636EB56917E4493C00D8814A /* thumbnail-frame.png */; };
 		636EB56C17E4493C00D8814A /* thumbnail-frame@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 636EB56A17E4493C00D8814A /* thumbnail-frame@2x.png */; };
@@ -84,6 +85,7 @@
 		63560FD017E49A5800693A47 /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
 		63560FD117E49A5800693A47 /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
 		63560FD417E49F5800693A47 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		63560FD617E4A7BB00693A47 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		635E3F9A17E089B700DD4466 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		636EB56917E4493C00D8814A /* thumbnail-frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thumbnail-frame.png"; sourceTree = "<group>"; };
 		636EB56A17E4493C00D8814A /* thumbnail-frame@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "thumbnail-frame@2x.png"; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63560FD717E4A7BB00693A47 /* CoreLocation.framework in Frameworks */,
 				63560FD517E49F5800693A47 /* MapKit.framework in Frameworks */,
 				632E8A9817E247FF00B078A4 /* QuickLook.framework in Frameworks */,
 				631F1BB917E0D64B00F124FD /* AssetsLibrary.framework in Frameworks */,
@@ -136,7 +139,6 @@
 		63297FE817DE624200EE3B7A = {
 			isa = PBXGroup;
 			children = (
-				63560FD417E49F5800693A47 /* MapKit.framework */,
 				63297FFC17DE624200EE3B7A /* TagTheTram */,
 				63297FF317DE624200EE3B7A /* Frameworks */,
 				63297FF217DE624200EE3B7A /* Products */,
@@ -154,6 +156,8 @@
 		63297FF317DE624200EE3B7A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				63560FD617E4A7BB00693A47 /* CoreLocation.framework */,
+				63560FD417E49F5800693A47 /* MapKit.framework */,
 				632E8A9717E247FF00B078A4 /* QuickLook.framework */,
 				631F1BB817E0D64B00F124FD /* AssetsLibrary.framework */,
 				635E3F9A17E089B700DD4466 /* MobileCoreServices.framework */,
