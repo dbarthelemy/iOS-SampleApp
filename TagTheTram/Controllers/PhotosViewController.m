@@ -13,7 +13,9 @@
 #import "Photo+CRUD.h"
 #import "PhotoCell.h"
 
-@interface PhotosViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, QLPreviewControllerDataSource, QLPreviewControllerDelegate>
+@interface PhotosViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate, QLPreviewControllerDataSource, QLPreviewControllerDelegate, UITextFieldDelegate>
+@property (nonatomic, retain) Photo *selectedPhoto;
+
 - (void)configureView;
 @end
 
@@ -21,6 +23,7 @@
 
 - (void)dealloc
 {
+    [_selectedPhoto release];
     [_fetchedResultsController release];
     [_managedObjectContext release];
     [_theStation release];
@@ -269,6 +272,19 @@
     else {
         aPhotoCell.thumbnailImageView.image = [UIImage imageNamed:@"thumbnail-picto"];
     }
+    
+    if ([aPhoto.title length] > 0) {
+        [aPhotoCell showTitleLabel];
+        [aPhotoCell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+    }
+    else {
+        // Promt the user to enter a title
+        self.selectedPhoto = aPhoto;
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+        [aPhotoCell showInputTitleTextField];
+        [aPhotoCell setAccessoryType:UITableViewCellAccessoryNone];
+        [aPhotoCell.inputTitleTextField becomeFirstResponder];
+    }
 }
 
 
@@ -405,6 +421,20 @@
     Photo *object = [[self fetchedResultsController] objectAtIndexPath:indexPath];
 
     return object;
+}
+
+
+#pragma mark - UITextFieldDelegate Protocol
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if (self.selectedPhoto) {
+        [self.selectedPhoto updatePhotoWithTitle:textField.text thumbnailUrl:nil];
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+        self.selectedPhoto = nil;
+    }
+
+    return YES;
 }
 
 @end

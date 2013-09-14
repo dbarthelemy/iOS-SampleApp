@@ -30,6 +30,25 @@
     [_thumbnailImageView release];
     [_titleLabel release];
     [_timestampLabel release];
+    [_inputTitleTextField release];
     [super dealloc];
 }
+
+
+#pragma mark - Public methods
+
+- (void)showInputTitleTextField
+{
+    self.titleLabel.hidden = YES;
+    self.inputTitleTextField.hidden = NO;
+    self.inputTitleTextField.enabled = YES;
+}
+
+- (void)showTitleLabel
+{
+    self.inputTitleTextField.enabled = NO;
+    self.inputTitleTextField.hidden = YES;
+    self.titleLabel.hidden = NO;
+}
+
 @end

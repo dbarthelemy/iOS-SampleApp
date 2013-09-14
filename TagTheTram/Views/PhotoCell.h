@@ -12,5 +12,9 @@
 @property (retain, nonatomic) IBOutlet UIImageView *thumbnailImageView;
 @property (retain, nonatomic) IBOutlet UILabel *titleLabel;
 @property (retain, nonatomic) IBOutlet UILabel *timestampLabel;
+@property (retain, nonatomic) IBOutlet UITextField *inputTitleTextField;
+
+- (void)showInputTitleTextField;
+- (void)showTitleLabel;
 
 @end

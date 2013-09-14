@@ -110,11 +110,21 @@
                                             <rect key="frame" x="12" y="12" width="64" height="64"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         </imageView>
+                                        <textField hidden="YES" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" clearButtonMode="always" id="s9t-zX-Wcg">
+                                            <rect key="frame" x="84" y="22" width="210" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="words" enablesReturnKeyAutomatically="YES"/>
+                                            <connections>
+                                                <outlet property="delegate" destination="5cc-08-Vbj" id="oHn-ZD-QrN"/>
+                                            </connections>
+                                        </textField>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
+                                    <outlet property="inputTitleTextField" destination="s9t-zX-Wcg" id="JgK-32-WA3"/>
                                     <outlet property="thumbnailImageView" destination="3pG-dx-boR" id="8Pr-WC-bLa"/>
                                     <outlet property="timestampLabel" destination="jfJ-Mh-j66" id="Q3h-TT-nFO"/>
                                     <outlet property="titleLabel" destination="Ovw-n9-0WO" id="gWY-Dr-LhE"/>
@@ -150,6 +160,7 @@
         <class className="PhotoCell" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/PhotoCell.h"/>
             <relationships>
+                <relationship kind="outlet" name="inputTitleTextField" candidateClass="UITextField"/>
                 <relationship kind="outlet" name="thumbnailImageView" candidateClass="UIImageView"/>
                 <relationship kind="outlet" name="timestampLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="titleLabel" candidateClass="UILabel"/>
