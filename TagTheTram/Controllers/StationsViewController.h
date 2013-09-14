@@ -9,9 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 
-@interface StationsViewController : UITableViewController <NSFetchedResultsControllerDelegate>
+@interface StationsViewController : UITableViewController
 @property (retain, nonatomic) NSManagedObjectContext *managedObjectContext;
-
-@property (retain, nonatomic) NSFetchedResultsController *fetchedResultsController;
 
 @end

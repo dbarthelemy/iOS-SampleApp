@@ -10,10 +10,8 @@
 #import <CoreData/CoreData.h>
 #import "Station.h"
 
-@interface PhotosViewController : UITableViewController <NSFetchedResultsControllerDelegate>
+@interface PhotosViewController : UITableViewController
 @property (retain, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (retain, nonatomic) Station *theStation;
-
-@property (retain, nonatomic) NSFetchedResultsController *fetchedResultsController;
 
 @end

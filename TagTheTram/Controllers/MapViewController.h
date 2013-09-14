@@ -1,0 +1,21 @@
+//
+//  MapViewController.h
+//  TagTheTram
+//
+//  Created by David Barthelemy on 14/09/13.
+//  Copyright (c) 2013 David Barthelemy, iMakeit4U. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@protocol MapViewControllerDelegate;
+
+@interface MapViewController : UIViewController
+@property (assign, nonatomic) id <MapViewControllerDelegate> delegate;
+@property (retain, nonatomic) NSManagedObjectContext *managedObjectContext;
+
+@end
+
+@protocol MapViewControllerDelegate
+- (void)mapViewControllerDidFinish:(MapViewController *)controller;
+@end

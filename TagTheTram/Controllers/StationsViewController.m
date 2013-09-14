@@ -10,8 +10,10 @@
 #import "PhotosViewController.h"
 #import "Station+CRUD.h"
 #import "StationWebService.h"
+#import "MapViewController.h"
 
-@interface StationsViewController () <StationWebServiceDelegate, UIAlertViewDelegate>
+@interface StationsViewController () <NSFetchedResultsControllerDelegate, StationWebServiceDelegate, UIAlertViewDelegate, MapViewControllerDelegate>
+@property (retain, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) UIAlertView *networkAlertView;
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
@@ -101,6 +103,21 @@
         [[segue destinationViewController] setManagedObjectContext:self.managedObjectContext];
         [[segue destinationViewController] setTheStation:aStation];
     }
+    else if ([[segue identifier] isEqualToString:@"showMap"]) {
+        UINavigationController *navigationController = [segue destinationViewController];
+        MapViewController *destinationViewController = (MapViewController *)navigationController.topViewController;
+
+        [destinationViewController setDelegate:self];
+        [destinationViewController setManagedObjectContext:self.managedObjectContext];
+    }
+}
+
+
+#pragma mark - MapViewControllerDelegate protocol
+
+- (void)mapViewControllerDidFinish:(MapViewController *)controller
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 
