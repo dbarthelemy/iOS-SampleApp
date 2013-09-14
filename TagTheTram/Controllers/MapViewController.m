@@ -181,17 +181,16 @@
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id < MKAnnotation >)annotation
 {
     // If it's the user location, just return nil.
-    if ([annotation isKindOfClass:[MKUserLocation class]])
+    if ([annotation isKindOfClass:[MKUserLocation class]]) {
         return nil;
-	
+	}
+    
     // Handle any custom annotations.
-    if ([annotation isKindOfClass:[Station class]])
-    {
+    if ([annotation isKindOfClass:[Station class]]) {
         // Try to dequeue an existing pin view first.
         MKPinAnnotationView* pinView = (MKPinAnnotationView*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"StationPinAnnotationView"];
 		
-        if (!pinView)
-        {
+        if (!pinView) {
             // If an existing pin view was not available, create one.
 			pinView = [[[MKPinAnnotationView alloc] initWithAnnotation:annotation
 													   reuseIdentifier:@"StationPinAnnotationView"] autorelease];
@@ -203,9 +202,18 @@
             UIButton* rightButton = [UIButton buttonWithType: UIButtonTypeDetailDisclosure];
             pinView.rightCalloutAccessoryView = rightButton;
         }
-        else
+        else {
             pinView.annotation = annotation;
-		
+		}
+        
+        // Use the color to inform the user about photo availability
+        if ([[(Station *)annotation photos] count] == 0) {
+            pinView.pinColor = MKPinAnnotationColorGreen;
+        }
+        else {
+            pinView.pinColor = MKPinAnnotationColorRed;
+        }
+        
         return pinView;
     }
 	
