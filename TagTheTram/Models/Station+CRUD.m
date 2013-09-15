@@ -107,6 +107,22 @@
 
 @implementation Station (CRUD)
 
+#pragma mark - Transient properties
+
+- (NSString *)sectionIndex
+{
+    [self willAccessValueForKey:@"sectionIndex"];
+
+    NSString *aName = [self.name uppercaseString];
+    NSString *aSectionIndexString = [aName substringWithRange:[aName rangeOfComposedCharacterSequenceAtIndex:0]]; // With UTF-16 support:
+    //NSString *aSectionIndexString = [aName substringToIndex:1]; // Without UTF-16 support:
+
+    [self didAccessValueForKey:@"sectionIndex"];
+    
+    return aSectionIndexString;
+}
+
+
 #pragma mark - Read methods
 
 + (Station *)stationWithId:(NSString *)remoteId

@@ -2,7 +2,7 @@
 //  Station.h
 //  TagTheTram
 //
-//  Created by David Barthelemy on 13/09/13.
+//  Created by David Barthelemy on 15/09/13.
 //  Copyright (c) 2013 David Barthelemy, iMakeit4U. All rights reserved.
 //
 
@@ -17,6 +17,7 @@
 @property (nonatomic, retain) NSNumber * longitude;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * remoteId;
+@property (nonatomic, retain) NSString * sectionIndex;
 @property (nonatomic, retain) NSSet *photos;
 @end
 

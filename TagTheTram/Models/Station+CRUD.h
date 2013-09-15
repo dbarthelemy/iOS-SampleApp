@@ -11,6 +11,9 @@
 
 @interface Station (CRUD) <MKAnnotation>
 
+// Transient properties
+- (NSString *)sectionIndex;
+
 // Create (Private)
 
 // Read (also refer to <MKAnnotation>)

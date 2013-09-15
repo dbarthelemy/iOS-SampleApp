@@ -12,11 +12,12 @@
         <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <attribute name="name" attributeType="String" syncable="YES"/>
         <attribute name="remoteId" attributeType="String" syncable="YES"/>
+        <attribute name="sectionIndex" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <relationship name="photos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Photo" inverseName="station" inverseEntity="Photo" syncable="YES"/>
         <userInfo/>
     </entity>
     <elements>
         <element name="Photo" positionX="160" positionY="192" width="128" height="120"/>
-        <element name="Station" positionX="-63" positionY="192" width="128" height="118"/>
+        <element name="Station" positionX="-63" positionY="192" width="128" height="135"/>
     </elements>
 </model>

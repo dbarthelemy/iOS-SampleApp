@@ -40,6 +40,9 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    MKCoordinateRegion initialRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(43.610873, 3.876704),
+                                                              MKCoordinateSpanMake(0.02, 0.02));
+    [self.stationMapView setRegion:initialRegion animated:NO];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -50,14 +53,6 @@
 - (NSUInteger)supportedInterfaceOrientations
 {
     return UIInterfaceOrientationMaskPortrait;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    // Set the initial Region
-    MKCoordinateRegion initialRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(43.610873, 3.876704),
-                                                              MKCoordinateSpanMake(0.02, 0.02));
-    [self.stationMapView setRegion:initialRegion animated:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated
