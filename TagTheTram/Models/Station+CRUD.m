@@ -152,6 +152,7 @@
     NSEntityDescription *entityDescriptor = [NSEntityDescription entityForName:@"Station" inManagedObjectContext:context];
     fetchRequest.entity = entityDescriptor;
     fetchRequest.predicate = [NSPredicate predicateWithFormat:@"remoteId = %@", remoteId];
+    fetchRequest.fetchLimit = 1;
     
     NSError *error = nil;
     NSArray *fetchedItem = [context executeFetchRequest:fetchRequest error:&error];
