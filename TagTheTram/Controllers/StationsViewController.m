@@ -12,7 +12,7 @@
 #import "StationWebService.h"
 #import "MapViewController.h"
 
-@interface StationsViewController () <NSFetchedResultsControllerDelegate, StationWebServiceDelegate, UIAlertViewDelegate, MapViewControllerDelegate>
+@interface StationsViewController () <NSFetchedResultsControllerDelegate, StationWebServiceDelegate, UIAlertViewDelegate, MapViewControllerDelegate, UISearchDisplayDelegate>
 @property (retain, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) UIAlertView *networkAlertView;
 
@@ -64,7 +64,16 @@
 }
 
 
-#pragma mark - Table View
+#pragma mark - UITableViewDelegate protocol
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        [self performSegueWithIdentifier:@"showStation" sender:nil];
+    }
+}
+
+#pragma mark - UITableViewDataSource protocol
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -114,7 +123,13 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"showStation"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        NSIndexPath *indexPath;
+        if ([sender isKindOfClass:[UITableViewCell class]]) {
+            indexPath = [self.tableView indexPathForCell:sender];
+        }
+        else {
+            indexPath = [self.searchDisplayController.searchResultsTableView indexPathForSelectedRow];
+        }
         Station *aStation = [[self fetchedResultsController] objectAtIndexPath:indexPath];
         [[segue destinationViewController] setManagedObjectContext:self.managedObjectContext];
         [[segue destinationViewController] setTheStation:aStation];
@@ -283,6 +298,47 @@
             [[StationWebService sharedInstance] fetchStations];
         }
         self.networkAlertView = nil;
+    }
+}
+
+
+#pragma mark - UISearchDisplayDelegate protocol
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    [self filterContentUsingSearchDisplayController:controller];
+    return YES;
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
+{
+    [self filterContentUsingSearchDisplayController:controller];
+    return YES;
+}
+
+- (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller
+{
+    [self filterContentUsingSearchDisplayController:controller];
+}
+
+
+#pragma mark - UISearchDisplayDelegate protocol helper methods
+
+- (void)filterContentUsingSearchDisplayController:(UISearchDisplayController *)controller
+{
+    NSString *query = controller.searchBar.text;
+    if ((query) && ([query length] > 0)) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", query];
+        [self.fetchedResultsController.fetchRequest setPredicate:predicate];
+    }
+    else {
+        [self.fetchedResultsController.fetchRequest setPredicate:nil];
+    }
+    
+    NSError *error = nil;
+    if (![[self fetchedResultsController] performFetch:&error]) {
+	    ALog(@"Unresolved error %@, %@", error, [error userInfo]);
+	    abort();
     }
 }
 
