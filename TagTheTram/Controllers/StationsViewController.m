@@ -332,9 +332,9 @@
     return YES;
 }
 
-- (void)searchDisplayControllerDidEndSearch:(UISearchDisplayController *)controller
+- (void)searchDisplayControllerWillEndSearch:(UISearchDisplayController *)controller
 {
-    [self filterContentUsingSearchDisplayController:controller];
+    [self filterContentUsingSearchDisplayController:nil];
 }
 
 
@@ -344,7 +344,13 @@
 {
     NSString *query = controller.searchBar.text;
     if ((query) && ([query length] > 0)) {
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", query];
+        NSPredicate *predicate;
+        if (controller.searchBar.selectedScopeButtonIndex == 0) {
+            predicate = [NSPredicate predicateWithFormat:@"name contains[cd] %@", query];
+        }
+        else {
+            predicate = [NSPredicate predicateWithFormat:@"photos.@count > 0 AND name contains[cd] %@", query];
+        }
         [self.fetchedResultsController.fetchRequest setPredicate:predicate];
     }
     else {
