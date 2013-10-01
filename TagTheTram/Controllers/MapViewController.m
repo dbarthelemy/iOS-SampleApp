@@ -10,6 +10,7 @@
 #import <MapKit/MapKit.h>
 #import "PhotosViewController.h"
 #import "Station+CRUD.h"
+#import "StationsViewController.h"
 
 @interface MapViewController () <NSFetchedResultsControllerDelegate, MKMapViewDelegate>
 @property (retain, nonatomic) NSFetchedResultsController *fetchedResultsController;
@@ -47,12 +48,22 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-	return UIInterfaceOrientationIsPortrait(interfaceOrientation);
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return UIInterfaceOrientationIsLandscape(interfaceOrientation);
+    }
+    else {
+        return UIInterfaceOrientationIsPortrait(interfaceOrientation);
+    }
 }
 
 - (NSUInteger)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskPortrait;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return UIInterfaceOrientationMaskLandscape;
+    }
+    else {
+        return UIInterfaceOrientationMaskPortrait;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -80,6 +91,20 @@
 }
 
 
+#pragma mark - Custom Getter/Setter
+
+- (void)setStation:(Station *)station
+{
+    if (station != _station) {
+        [_station release];
+        _station = [station retain];
+        
+        [self.stationMapView setCenterCoordinate:station.coordinate animated:YES];
+        [self.stationMapView selectAnnotation:station animated:YES];
+    }
+}
+
+
 #pragma mark - IBAction methods
 
 - (IBAction)done:(UIBarButtonItem *)sender
@@ -101,6 +126,12 @@
         Station *aStation = [(MKAnnotationView *)sender annotation];
         [[segue destinationViewController] setManagedObjectContext:self.managedObjectContext];
         [[segue destinationViewController] setTheStation:aStation];
+    }
+    else if ([[segue identifier] isEqualToString:@"showSearch"]) {
+        UINavigationController *navigationController = [segue destinationViewController];
+        StationsViewController *destinationViewController = (StationsViewController *)navigationController.topViewController;
+        [destinationViewController setMapViewController:self];
+        [destinationViewController setManagedObjectContext:self.managedObjectContext];
     }
 }
 

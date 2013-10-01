@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
+#import "MapViewController.h"
 
 @interface StationsViewController : UITableViewController
 @property (retain, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (assign, nonatomic) MapViewController *mapViewController;
 
 @end

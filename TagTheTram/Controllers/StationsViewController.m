@@ -59,15 +59,18 @@
     [super viewDidAppear:animated];
     
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        double delayInSeconds = 0.5;
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
-                                  atScrollPosition:UITableViewScrollPositionTop
-                                          animated:YES];
+    if (([self.fetchedResultsController.fetchedObjects count] > 0) &&
+        (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)) {
+        dispatch_once(&onceToken, ^{
+            double delayInSeconds = 0.5;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
+                                      atScrollPosition:UITableViewScrollPositionTop
+                                              animated:YES];
+            });
         });
-    });
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -84,8 +87,15 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (tableView == self.searchDisplayController.searchResultsTableView) {
-        [self performSegueWithIdentifier:@"showStation" sender:nil];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        if (tableView == self.searchDisplayController.searchResultsTableView) {
+            [self performSegueWithIdentifier:@"showStation" sender:nil];
+        }
+    }
+    else {
+        if (self.mapViewController) {
+            self.mapViewController.station = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        }
     }
 }
 

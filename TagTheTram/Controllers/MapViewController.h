@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Station.h"
 
 @protocol MapViewControllerDelegate;
 
 @interface MapViewController : UIViewController
 @property (assign, nonatomic) id <MapViewControllerDelegate> delegate;
 @property (retain, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (retain, nonatomic) Station *station;
 
 @end
 

@@ -143,7 +143,7 @@
                     </toolbarItems>
                     <navigationItem key="navigationItem" title="Tag The Tram !" id="DuZ-fP-sE1">
                         <barButtonItem key="backBarButtonItem" title="Carte" id="6vA-rZ-vFT"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="G3T-2v-iQy">
+                        <barButtonItem key="rightBarButtonItem" title="◉" id="G3T-2v-iQy">
                             <connections>
                                 <action selector="showUserLocationAction:" destination="d0E-y2-AD8" id="deR-kW-Hkb"/>
                             </connections>
@@ -268,6 +268,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="90U-aG-fR0"/>
+        <segue reference="djS-1B-QOe"/>
     </inferredMetricsTieBreakers>
 </document>
