@@ -248,7 +248,12 @@
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
-    [self performSegueWithIdentifier:@"showStation" sender:view];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [self performSegueWithIdentifier:@"showStation" sender:view];
+    }
+    else {
+        // FIXME
+    }
 }
 
 @end
