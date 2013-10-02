@@ -80,6 +80,10 @@
 
 - (IBAction)addPhotoAction:(UIBarButtonItem *)sender
 {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        // Fix UI glitch with the StatusBar when using the UIImagePickerController on iPad
+        [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationSlide];
+    }
     [self startCameraControllerFromViewController:self
                                     usingDelegate:self];
 }
@@ -127,6 +131,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     QLPreviewController *previewController = [[QLPreviewController alloc] init];
     previewController.dataSource = self;
     previewController.delegate = self;
@@ -134,9 +140,13 @@
     // start previewing the document at the current section index
     previewController.currentPreviewItemIndex = indexPath.row;
     
-    [[self navigationController] pushViewController:previewController animated:YES];
-//    [self presentViewController:previewController animated:YES completion:nil];
-    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        [[self navigationController] pushViewController:previewController animated:YES];
+    }
+    else {
+        [self presentViewController:previewController animated:YES completion:nil];
+    }
+
     [previewController release];
 }
 
@@ -313,7 +323,12 @@
 // For responding to the user tapping Cancel.
 - (void) imagePickerControllerDidCancel: (UIImagePickerController *) picker
 {
-    [[picker presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+    [[picker presentingViewController] dismissViewControllerAnimated:YES completion:^{
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            // Fix UI glitch with the StatusBar when using the UIImagePickerController on iPad
+            [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+        }
+    }];
     [picker release];
 }
 
@@ -371,7 +386,19 @@
         }
     }
         
-    [[picker presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+    [[picker presentingViewController] dismissViewControllerAnimated:YES completion:^{
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            // Fix UI glitch with the StatusBar when using the UIImagePickerController on iPad
+            [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationSlide];
+
+            // Make sure the Keyboard will be presented on the iPad
+            if (self.selectedPhoto) {
+                PhotoCell *aPhotoCell = (PhotoCell *)[self.tableView cellForRowAtIndexPath:[self.fetchedResultsController indexPathForObject:self.selectedPhoto]];
+                [aPhotoCell.inputTitleTextField resignFirstResponder];
+                [aPhotoCell.inputTitleTextField becomeFirstResponder];
+            }
+        }
+    }];
     [picker release];
 }
 
