@@ -15,6 +15,7 @@
 @interface StationsViewController () <NSFetchedResultsControllerDelegate, StationWebServiceDelegate, UIAlertViewDelegate, MapViewControllerDelegate, UISearchDisplayDelegate>
 @property (retain, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) UIAlertView *networkAlertView;
+@property (nonatomic, assign) BOOL isSearchTableViewPresented;
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 @end
@@ -54,6 +55,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        [self.searchDisplayController setActive:NO animated:YES];
+    }
+    [super viewWillAppear:animated];
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -87,15 +96,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
-        if (tableView == self.searchDisplayController.searchResultsTableView) {
-            [self performSegueWithIdentifier:@"showStation" sender:nil];
-        }
-    }
-    else {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         if (self.mapViewController) {
             self.mapViewController.station = [self.fetchedResultsController objectAtIndexPath:indexPath];
         }
+    }
+    if (tableView == self.searchDisplayController.searchResultsTableView) {
+        [self performSegueWithIdentifier:@"showStation" sender:nil];
     }
 }
 
@@ -295,8 +302,10 @@
 
 - (void)fetchStationsDidSucceed
 {
-    // To fix minor UI glitch on the iniital cell prior indexes were inserted in the Table View during the initial data fetch.
-    [self.tableView reloadRowsAtIndexPaths:self.tableView.indexPathsForVisibleRows withRowAnimation:UITableViewRowAnimationAutomatic];
+    if (!self.isSearchTableViewPresented) {
+        // To fix minor UI glitch on the iniital cell prior indexes were inserted in the Table View during the initial data fetch.
+        [self.tableView reloadRowsAtIndexPaths:self.tableView.indexPathsForVisibleRows withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
 }
 
 - (void)fetchStationsDidFailedWithError:(NSError *)error
@@ -332,6 +341,16 @@
 
 
 #pragma mark - UISearchDisplayDelegate protocol
+
+- (void)searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)tableView
+{
+    self.isSearchTableViewPresented = YES;
+}
+
+- (void)searchDisplayController:(UISearchDisplayController *)controller didHideSearchResultsTableView:(UITableView *)tableView
+{
+    self.isSearchTableViewPresented = NO;
+}
 
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
