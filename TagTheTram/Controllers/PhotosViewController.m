@@ -47,14 +47,6 @@
     return UIInterfaceOrientationMaskPortrait;
 }
 
-- (void)configureView
-{
-    if (self.theStation) {
-        self.title = self.theStation.name;
-        [self.tableView reloadData];
-    }
-}
-
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -86,6 +78,17 @@
     }
     [self startCameraControllerFromViewController:self
                                     usingDelegate:self];
+}
+
+
+#pragma mark - Private methods
+
+- (void)configureView
+{
+    if (self.theStation) {
+        self.title = self.theStation.name;
+        [self.tableView reloadData];
+    }
 }
 
 

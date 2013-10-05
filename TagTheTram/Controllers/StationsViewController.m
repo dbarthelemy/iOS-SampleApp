@@ -18,6 +18,8 @@
 @property (nonatomic, assign) BOOL isSearchTableViewPresented;
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+- (void)filterContentUsingSearchDisplayController:(UISearchDisplayController *)controller;
+
 @end
 
 @implementation StationsViewController
