@@ -40,6 +40,7 @@
     [_fetchedResultsController release];
     [_managedObjectContext release];
     [_stationMapView release];
+    [_station release];
     [super dealloc];
 }
 
@@ -138,6 +139,10 @@
         StationsViewController *destinationViewController = (StationsViewController *)navigationController.topViewController;
         [destinationViewController setMapViewController:self];
         [destinationViewController setManagedObjectContext:self.managedObjectContext];
+        
+        if (!sender) {
+            [destinationViewController presentPhotosForStation:self.station];
+        }
     }
 }
 
@@ -389,7 +394,10 @@
         }
     }
     
-    [[picker presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+    [[picker presentingViewController] dismissViewControllerAnimated:YES completion:^{
+        // User must enter a name
+        [self performSegueWithIdentifier:@"showSearch" sender:nil];
+    }];
     [picker release];
 }
 

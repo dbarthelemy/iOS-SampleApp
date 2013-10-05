@@ -14,4 +14,5 @@
 @property (retain, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (assign, nonatomic) MapViewController *mapViewController;
 
+- (void)presentPhotosForStation:(Station *)station;
 @end

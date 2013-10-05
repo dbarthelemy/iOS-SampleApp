@@ -92,6 +92,22 @@
 }
 
 
+#pragma mark - Public methods
+
+- (void)presentPhotosForStation:(Station *)station
+{
+    if (station) {
+        if (self.searchDisplayController.isActive) {
+            [self.searchDisplayController setActive:NO animated:YES];
+        }
+        
+        NSIndexPath *indexPath = [self.fetchedResultsController indexPathForObject:station];
+        [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionTop];
+        
+        [self performSegueWithIdentifier:@"showStation" sender:[self.tableView cellForRowAtIndexPath:indexPath]];
+    }
+}
+
 #pragma mark - UITableViewDelegate protocol
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
