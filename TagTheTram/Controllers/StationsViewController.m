@@ -80,6 +80,9 @@
             });
         });
     }
+
+    // Monitor Web Service status
+    [[StationWebService sharedInstance] setDelegate:self];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

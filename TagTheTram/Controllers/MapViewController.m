@@ -15,12 +15,14 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <QuickLook/QuickLook.h>
 #import "Photo+CRUD.h"
+#import "StationWebService.h"
 
 #define kThumbnailTag 999
 
-@interface MapViewController () <NSFetchedResultsControllerDelegate, MKMapViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, QLPreviewControllerDataSource, QLPreviewControllerDelegate>
+@interface MapViewController () <NSFetchedResultsControllerDelegate, StationWebServiceDelegate, UIAlertViewDelegate, MKMapViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, QLPreviewControllerDataSource, QLPreviewControllerDelegate>
 @property (retain, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (retain, nonatomic) IBOutlet MKMapView *stationMapView;
+@property (nonatomic, retain) UIAlertView *networkAlertView;
 
 @end
 
@@ -37,10 +39,13 @@
 
 - (void)dealloc
 {
+    [[StationWebService sharedInstance] setDelegate:nil];
+
     [_fetchedResultsController release];
     [_managedObjectContext release];
     [_stationMapView release];
     [_station release];
+    [_networkAlertView release];
     [super dealloc];
 }
 
@@ -75,8 +80,12 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    // Monitor Web Service status
+    [[StationWebService sharedInstance] setDelegate:self];
+
     // Add annotations
     [self.stationMapView addAnnotations:self.fetchedResultsController.fetchedObjects];
+    
     [super viewDidAppear:animated];
 }
 
@@ -84,6 +93,12 @@
 {
     [self.stationMapView setUserTrackingMode:MKUserTrackingModeNone animated:NO];
     self.stationMapView.showsUserLocation = NO;
+
+    if (self.networkAlertView) {
+        [self.networkAlertView dismissWithClickedButtonIndex:[self.networkAlertView cancelButtonIndex] animated:YES];
+        self.networkAlertView = nil;
+    }
+    [super viewWillDisappear:animated];
 }
 
 - (void)viewDidUnload {
@@ -415,6 +430,44 @@
     Photo *object = [photos objectAtIndex:index];
     
     return object;
+}
+
+
+#pragma mark - StationWebServiceDelegate Protocol
+
+- (void)fetchStationsDidSucceed
+{
+}
+
+- (void)fetchStationsDidFailedWithError:(NSError *)error
+{
+    ALog(@"Error from the Web Service: %@", error.localizedDescription);
+    
+    if (([[self.fetchedResultsController fetchedObjects] count] == 0) && (!self.networkAlertView)) {
+        // Notify the user about the network error only if the list is empty
+        UIAlertView *anAlert = [[UIAlertView alloc] initWithTitle:@"Erreur"
+                                                          message:@"Récupération de la liste impossible"
+                                                         delegate:self
+                                                cancelButtonTitle:@"Annuler"
+                                                otherButtonTitles:@"Réessayer", nil];
+        self.networkAlertView = anAlert;
+        [anAlert show];
+        [anAlert release];
+    }
+}
+
+
+#pragma mark - UIAlertViewDelegate methods
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (alertView == self.networkAlertView) {
+        if (buttonIndex != [alertView cancelButtonIndex]) {
+            // Retry
+            [[StationWebService sharedInstance] fetchStations];
+        }
+        self.networkAlertView = nil;
+    }
 }
 
 @end
