@@ -15,8 +15,6 @@
 		6329800117DE624200EE3B7A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 63297FFF17DE624200EE3B7A /* InfoPlist.strings */; };
 		6329800317DE624200EE3B7A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329800217DE624200EE3B7A /* main.m */; };
 		6329800717DE624200EE3B7A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329800617DE624200EE3B7A /* AppDelegate.m */; };
-		6329800917DE624200EE3B7A /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 6329800817DE624200EE3B7A /* Default.png */; };
-		6329800B17DE624200EE3B7A /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6329800A17DE624200EE3B7A /* Default@2x.png */; };
 		6329800D17DE624200EE3B7A /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6329800C17DE624200EE3B7A /* Default-568h@2x.png */; };
 		6329801017DE624200EE3B7A /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6329800E17DE624200EE3B7A /* MainStoryboard.storyboard */; };
 		6329802817DE68BC00EE3B7A /* StationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6329802617DE68BC00EE3B7A /* StationsViewController.m */; };
@@ -46,6 +44,10 @@
 		6380EE2317E0F7B100C381B7 /* Photo+CRUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 6380EE2217E0F7B100C381B7 /* Photo+CRUD.m */; };
 		63A60E8A17FB77620004AC29 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63A60E8C17FB77620004AC29 /* MainStoryboard_iPad.storyboard */; };
 		63AA90B117E59CE300E468F5 /* Station.m in Sources */ = {isa = PBXBuildFile; fileRef = 63AA90B017E59CE300E468F5 /* Station.m */; };
+		63B7040B180079D300E89ED9 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B7040A180079D300E89ED9 /* Default-Landscape~ipad.png */; };
+		63B7040D180079E900E89ED9 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 63B7040C180079E900E89ED9 /* Default-Landscape@2x~ipad.png */; };
+		63B7041218007CAD00E89ED9 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 6329800817DE624200EE3B7A /* Default.png */; };
+		63B7041318007CB400E89ED9 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6329800A17DE624200EE3B7A /* Default@2x.png */; };
 		63EEC65917E39AF300409C50 /* UIImage+ProportionalFill.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EEC65817E39AF300409C50 /* UIImage+ProportionalFill.m */; };
 		63EEC65F17E39B8800409C50 /* UIImage+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EEC65E17E39B8800409C50 /* UIImage+Additions.m */; };
 		63EEC66417E3AF2C00409C50 /* thumbnail-picto.png in Resources */ = {isa = PBXBuildFile; fileRef = 63EEC66217E3AF2C00409C50 /* thumbnail-picto.png */; };
@@ -110,6 +112,8 @@
 		63A60E8D17FB77790004AC29 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = fr; path = fr.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		63AA90AF17E59CE300E468F5 /* Station.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Station.h; sourceTree = "<group>"; };
 		63AA90B017E59CE300E468F5 /* Station.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Station.m; sourceTree = "<group>"; };
+		63B7040A180079D300E89ED9 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape~ipad.png"; path = "../Default-Landscape~ipad.png"; sourceTree = "<group>"; };
+		63B7040C180079E900E89ED9 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-Landscape@2x~ipad.png"; path = "../Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		63EEC65717E39AF300409C50 /* UIImage+ProportionalFill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ProportionalFill.h"; sourceTree = "<group>"; };
 		63EEC65817E39AF300409C50 /* UIImage+ProportionalFill.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ProportionalFill.m"; sourceTree = "<group>"; };
 		63EEC65D17E39B8800409C50 /* UIImage+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Additions.h"; sourceTree = "<group>"; };
@@ -200,6 +204,8 @@
 				6329800817DE624200EE3B7A /* Default.png */,
 				6329800A17DE624200EE3B7A /* Default@2x.png */,
 				6329800C17DE624200EE3B7A /* Default-568h@2x.png */,
+				63B7040C180079E900E89ED9 /* Default-Landscape@2x~ipad.png */,
+				63B7040A180079D300E89ED9 /* Default-Landscape~ipad.png */,
 				63EEC66617E3B64A00409C50 /* Settings.bundle */,
 			);
 			name = "Supporting Files";
@@ -390,8 +396,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6329800117DE624200EE3B7A /* InfoPlist.strings in Resources */,
-				6329800917DE624200EE3B7A /* Default.png in Resources */,
-				6329800B17DE624200EE3B7A /* Default@2x.png in Resources */,
 				6329800D17DE624200EE3B7A /* Default-568h@2x.png in Resources */,
 				6329801017DE624200EE3B7A /* MainStoryboard.storyboard in Resources */,
 				63EEC66417E3AF2C00409C50 /* thumbnail-picto.png in Resources */,
@@ -410,6 +414,10 @@
 				636EB59517E474F200D8814A /* iTunesArtwork in Resources */,
 				636EB59617E474F200D8814A /* iTunesArtwork@2x in Resources */,
 				63A60E8A17FB77620004AC29 /* MainStoryboard_iPad.storyboard in Resources */,
+				63B7040B180079D300E89ED9 /* Default-Landscape~ipad.png in Resources */,
+				63B7040D180079E900E89ED9 /* Default-Landscape@2x~ipad.png in Resources */,
+				63B7041218007CAD00E89ED9 /* Default.png in Resources */,
+				63B7041318007CB400E89ED9 /* Default@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
