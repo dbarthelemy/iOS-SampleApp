@@ -7,12 +7,18 @@
 //
 
 #import "MapViewController.h"
+#import "AppDelegate.h"
 #import <MapKit/MapKit.h>
 #import "PhotosViewController.h"
 #import "Station+CRUD.h"
 #import "StationsViewController.h"
+#import <MobileCoreServices/MobileCoreServices.h>
+#import <QuickLook/QuickLook.h>
+#import "Photo+CRUD.h"
 
-@interface MapViewController () <NSFetchedResultsControllerDelegate, MKMapViewDelegate>
+#define kThumbnailTag 999
+
+@interface MapViewController () <NSFetchedResultsControllerDelegate, MKMapViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, QLPreviewControllerDataSource, QLPreviewControllerDelegate>
 @property (retain, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (retain, nonatomic) IBOutlet MKMapView *stationMapView;
 
@@ -204,6 +210,16 @@
 
 #pragma mark - MKMapViewDelegate Protocol
 
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
+{
+    if (view.leftCalloutAccessoryView != nil) {
+        UIButton *showPhotosButton = (UIButton *)view.leftCalloutAccessoryView;
+        UIImage *thumbnail = [UIImage imageWithData:[NSData dataWithContentsOfURL:[[[(Station *)view.annotation photos] anyObject] thumbnailURL]]
+                                              scale:[[UIScreen mainScreen] scale]];
+        [showPhotosButton setImage:thumbnail forState:UIControlStateNormal];
+    }
+}
+
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id < MKAnnotation >)annotation
 {
     // If it's the user location, just return nil.
@@ -224,20 +240,31 @@
             pinView.animatesDrop = YES;
             pinView.canShowCallout = YES;
 			
-            // Add a detail disclosure button to the callout.
-            UIButton* rightButton = [UIButton buttonWithType: UIButtonTypeDetailDisclosure];
-            pinView.rightCalloutAccessoryView = rightButton;
+            // Add a detail disclosure or photo ass button to the callout.
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+                pinView.rightCalloutAccessoryView = [UIButton buttonWithType: UIButtonTypeDetailDisclosure];
+            }
+            else {
+                pinView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeContactAdd];
+            }
         }
         else {
             pinView.annotation = annotation;
 		}
         
-        // Use the color to inform the user about photo availability
+        // Use the color to inform the user about photo availability, present a thumbnail if any
         if ([[(Station *)annotation photos] count] == 0) {
             pinView.pinColor = MKPinAnnotationColorGreen;
+            
+            pinView.leftCalloutAccessoryView = nil;
         }
         else {
             pinView.pinColor = MKPinAnnotationColorRed;
+            
+            UIButton *showPhotosButton = [UIButton buttonWithType:UIButtonTypeCustom];
+            showPhotosButton.frame = CGRectMake(0.0, 0.0, 32.0, 32.0);
+            showPhotosButton.tag = kThumbnailTag;
+            pinView.leftCalloutAccessoryView = showPhotosButton;
         }
         
         return pinView;
@@ -252,8 +279,134 @@
         [self performSegueWithIdentifier:@"showStation" sender:view];
     }
     else {
-        // FIXME
+        self.station = view.annotation;
+        
+        if (([self.station.photos count] > 0) && (control.tag == kThumbnailTag)) {
+            QLPreviewController *previewController = [[QLPreviewController alloc] init];
+            previewController.dataSource = self;
+            previewController.delegate = self;
+            
+            // start previewing the document at the current section index
+            previewController.currentPreviewItemIndex = 0;
+            
+            [self presentViewController:previewController animated:YES completion:nil];
+            [previewController release];
+        }
+        else {
+            [self startCameraControllerFromViewController:self
+                                            usingDelegate:self];
+        }
     }
+}
+
+
+#pragma mark - Camera methods
+
+- (BOOL) startCameraControllerFromViewController:(UIViewController*) controller
+                                   usingDelegate:(id <UIImagePickerControllerDelegate,
+                                                  UINavigationControllerDelegate>) delegate
+{
+    if (([UIImagePickerController isSourceTypeAvailable:
+          UIImagePickerControllerSourceTypeCamera] == NO)
+        || (delegate == nil)
+        || (controller == nil)) {
+        ALog(@"Carema is unavailable");
+        return NO;
+    }
+    
+    UIImagePickerController *cameraUI = [[UIImagePickerController alloc] init];
+    cameraUI.sourceType = UIImagePickerControllerSourceTypeCamera;
+    
+    cameraUI.allowsEditing = YES;
+    cameraUI.delegate = delegate;
+    
+    [controller presentModalViewController:cameraUI animated:YES];
+    
+    return YES;
+}
+
+
+#pragma mark - UIImagePickerControllerDelegate methods
+
+// For responding to the user tapping Cancel.
+- (void) imagePickerControllerDidCancel: (UIImagePickerController *) picker
+{
+    [[picker presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+    [picker release];
+}
+
+// For responding to the user accepting a newly-captured picture
+- (void) imagePickerController: (UIImagePickerController *) picker
+ didFinishPickingMediaWithInfo: (NSDictionary *) info
+{
+    NSDate *timestamp = [NSDate date];
+    NSString *mediaType = [info objectForKey: UIImagePickerControllerMediaType];
+    UIImage *originalImage, *editedImage, *imageToSave;
+    
+    // Handle a still image capture
+    if (CFStringCompare ((CFStringRef) mediaType, kUTTypeImage, 0)
+        == kCFCompareEqualTo) {
+        
+        editedImage = (UIImage *)[info objectForKey:UIImagePickerControllerEditedImage];
+        originalImage = (UIImage *)[info objectForKey:UIImagePickerControllerOriginalImage];
+        
+        if (editedImage) {
+            // Original size
+            CGSize originalImageSize = originalImage.size;
+            CGRect originalImageRect = CGRectMake(0.0, 0.0, originalImageSize.width, originalImageSize.height);
+            
+            // Edited origin and size
+            CGRect editedImageRect = [(NSValue *)[info objectForKey:UIImagePickerControllerCropRect] CGRectValue];
+            
+            // Check the edited size
+            if (!CGRectContainsRect(editedImageRect, originalImageRect)) {
+                imageToSave = editedImage;
+            }
+            else {
+                imageToSave = originalImage;
+            }
+        }
+        else {
+            imageToSave = originalImage;
+        }
+        
+        if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
+            // Save photo in App Sandbox
+            Photo *aPhoto = [Photo addPhotoWithImage:imageToSave
+                                           timeStamp:timestamp
+                                               title:nil
+                                             station:self.station];
+            if (!aPhoto) {
+                // Notify the user about the error
+                UIAlertView *saveAlert = [[UIAlertView alloc] initWithTitle:@"Erreur"
+                                                                    message:@"Sauvegarde impossible"
+                                                                   delegate:nil
+                                                          cancelButtonTitle:@"Ok"
+                                                          otherButtonTitles:nil];
+                [saveAlert show];
+                [saveAlert release];
+            }
+        }
+    }
+    
+    [[picker presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+    [picker release];
+}
+
+
+#pragma mark - QLPreviewControllerDataSource Protocol (iPad only)
+
+- (NSInteger) numberOfPreviewItemsInPreviewController: (QLPreviewController *) controller
+{
+    return [self.station.photos count];
+}
+
+- (id <QLPreviewItem>) previewController: (QLPreviewController *) controller previewItemAtIndex: (NSInteger) index
+{
+    NSOrderedSet *photos = [NSOrderedSet orderedSetWithSet:self.station.photos];
+    Photo *object = [photos objectAtIndex:index];
+    
+    return object;
 }
 
 @end

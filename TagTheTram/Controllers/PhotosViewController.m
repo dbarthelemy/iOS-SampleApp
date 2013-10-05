@@ -403,32 +403,6 @@
 }
 
 
-#pragma mark - Other Private methods
-
-- (NSURL *)saveImage:(UIImage *)image usingDate:(NSDate *)date
-{
-    NSURL *savedUrl = nil;
-    
-    NSData *imageRepresentation = UIImageJPEGRepresentation(image, 1.0);
-    if (imageRepresentation) {
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"yyyyMMddHHmmss"];
-        NSString *filename = [NSString stringWithFormat:@"Photo-%@", date];
-        [dateFormatter release];
-        
-        NSURL *baseUrl = [NSURL URLWithString:filename relativeToURL:[(AppDelegate *)[[UIApplication sharedApplication] delegate] applicationMediasDirectory]];
-        NSURL *targetUrl = [NSURL URLWithString:filename relativeToURL:baseUrl];
-        NSURL *targetUrlWithExt = [targetUrl URLByAppendingPathExtension:@"jpg"];
-        
-        if ([imageRepresentation writeToURL:targetUrlWithExt atomically:YES]) {
-            savedUrl = targetUrlWithExt;
-        }
-    }
-    
-    return savedUrl;
-}
-
-
 #pragma mark - QLPreviewControllerDataSource Protocol
 
 - (NSInteger) numberOfPreviewItemsInPreviewController: (QLPreviewController *) controller
