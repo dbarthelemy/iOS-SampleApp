@@ -62,6 +62,12 @@
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         [self.searchDisplayController setActive:NO animated:YES];
     }
+    if (self.searchDisplayController.isActive) {
+        [self filterContentUsingSearchDisplayController:self.searchDisplayController];
+    }
+    else {
+        [self filterContentUsingSearchDisplayController:nil];
+    }
     [super viewWillAppear:animated];
 }
 
@@ -93,6 +99,8 @@
         [self.networkAlertView dismissWithClickedButtonIndex:[self.networkAlertView cancelButtonIndex] animated:YES];
         self.networkAlertView = nil;
     }
+    self.fetchedResultsController = nil;
+    
     [super viewWillDisappear:animated];
 }
 
