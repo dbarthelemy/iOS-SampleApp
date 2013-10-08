@@ -19,10 +19,12 @@
 
 #define kThumbnailTag 999
 
-@interface MapViewController () <NSFetchedResultsControllerDelegate, StationWebServiceDelegate, UIAlertViewDelegate, MKMapViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, QLPreviewControllerDataSource, QLPreviewControllerDelegate>
+@interface MapViewController () <NSFetchedResultsControllerDelegate, StationWebServiceDelegate, UIAlertViewDelegate, MKMapViewDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, QLPreviewControllerDataSource, QLPreviewControllerDelegate, UIPopoverControllerDelegate>
 @property (retain, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (retain, nonatomic) IBOutlet MKMapView *stationMapView;
 @property (nonatomic, retain) UIAlertView *networkAlertView;
+@property (nonatomic, retain) UIPopoverController *searchPopoverController;
+@property (retain, nonatomic) IBOutlet UIBarButtonItem *searchButton;
 
 @end
 
@@ -46,6 +48,8 @@
     [_stationMapView release];
     [_station release];
     [_networkAlertView release];
+    [_searchPopoverController release];
+    [_searchButton release];
     [super dealloc];
 }
 
@@ -103,6 +107,7 @@
 
 - (void)viewDidUnload {
     [self setStationMapView:nil];
+    [self setSearchButton:nil];
     [super viewDidUnload];
 }
 
@@ -150,6 +155,13 @@
         [[segue destinationViewController] setTheStation:aStation];
     }
     else if ([[segue identifier] isEqualToString:@"showSearch"]) {
+        if ([segue isKindOfClass:[UIStoryboardPopoverSegue class]]) {
+            UIStoryboardPopoverSegue *popoverSegues = (UIStoryboardPopoverSegue *)segue;
+            self.searchPopoverController = popoverSegues.popoverController;
+            self.searchPopoverController.delegate = self;
+            self.searchButton.enabled = NO;
+        }
+        
         UINavigationController *navigationController = [segue destinationViewController];
         StationsViewController *destinationViewController = (StationsViewController *)navigationController.topViewController;
         [destinationViewController setMapViewController:self];
@@ -468,6 +480,15 @@
         }
         self.networkAlertView = nil;
     }
+}
+
+
+#pragma mark - UIPopoverControllerDelegate
+
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController
+{
+    self.searchPopoverController = nil;
+    self.searchButton.enabled = YES;
 }
 
 @end

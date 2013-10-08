@@ -38,6 +38,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="searchButton" destination="Z7A-kB-vKY" id="m9W-3i-htY"/>
                         <outlet property="stationMapView" destination="a9x-Yv-lli" id="gqM-ez-U1O"/>
                     </connections>
                 </viewController>
