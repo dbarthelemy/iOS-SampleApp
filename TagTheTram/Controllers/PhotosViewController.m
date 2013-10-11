@@ -14,7 +14,7 @@
 #import "PhotoCell.h"
 
 @interface PhotosViewController () <NSFetchedResultsControllerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, QLPreviewControllerDataSource, QLPreviewControllerDelegate, UITextFieldDelegate>
-@property (retain, nonatomic) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) Photo *selectedPhoto;
 
 - (void)configureView;

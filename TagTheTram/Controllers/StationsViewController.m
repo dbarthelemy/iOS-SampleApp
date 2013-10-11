@@ -13,7 +13,7 @@
 #import "MapViewController.h"
 
 @interface StationsViewController () <NSFetchedResultsControllerDelegate, StationWebServiceDelegate, UIAlertViewDelegate, MapViewControllerDelegate, UISearchDisplayDelegate>
-@property (retain, nonatomic) NSFetchedResultsController *fetchedResultsController;
+@property (nonatomic, retain) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, retain) UIAlertView *networkAlertView;
 @property (nonatomic, assign) BOOL isSearchTableViewPresented;
 
@@ -57,17 +57,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    if (self.searchDisplayController.isActive) {
-        [self filterContentUsingSearchDisplayController:self.searchDisplayController];
-    }
-    else {
-        [self filterContentUsingSearchDisplayController:nil];
-    }
-    [super viewWillAppear:animated];
-}
-
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -96,8 +85,6 @@
         [self.networkAlertView dismissWithClickedButtonIndex:[self.networkAlertView cancelButtonIndex] animated:YES];
         self.networkAlertView = nil;
     }
-    self.fetchedResultsController = nil;
-    
     [super viewWillDisappear:animated];
 }
 
