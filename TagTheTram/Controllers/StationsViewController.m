@@ -59,9 +59,6 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        [self.searchDisplayController setActive:NO animated:YES];
-    }
     if (self.searchDisplayController.isActive) {
         [self filterContentUsingSearchDisplayController:self.searchDisplayController];
     }
@@ -321,9 +318,23 @@
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    Station *aStation = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = aStation.name;
-    cell.detailTextLabel.text = [aStation photoCounterString];
+    if (([self.fetchedResultsController.sections count] >= indexPath.section) &&
+        ([self.fetchedResultsController.sections[indexPath.section] numberOfObjects] >= indexPath.row)) {
+        /*
+         * These verifications were added to prevent the following exception:
+         *    'NSInternalInconsistencyException', reason: 'no object at index 9 in section at index 0'
+         * to occur in the following scenario:
+         *    Enter a search string, select 'With photo' scope, select one station, select one photo, change the iPhone orientation to landscape...
+         * It is unclear why it happens as the StationsViewController is offscreen... the following method is invoqued:
+         *    _createPreparedCellForRow:withIndexPath: from UITableView(UITableViewInternal)
+         * Which then calls:
+         *    tableView:cellForRowAtIndexPath: form StationsViewController (but not form PhotosViewController) 
+         *    with an indexPath related to the main tableView (not the search tableView)
+         */
+        Station *aStation = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        cell.textLabel.text = aStation.name;
+        cell.detailTextLabel.text = [aStation photoCounterString];
+    }
 }
 
 
