@@ -113,7 +113,8 @@
 {
     [self willAccessValueForKey:@"sectionIndex"];
 
-    NSString *aName = [self.name uppercaseString];
+    NSString *aName = [[self.name stringByFoldingWithOptions:(NSCaseInsensitiveSearch | NSDiacriticInsensitiveSearch)
+                                                      locale:[NSLocale currentLocale]] uppercaseString];
     NSString *aSectionIndexString = [aName substringWithRange:[aName rangeOfComposedCharacterSequenceAtIndex:0]]; // With UTF-16 support:
     //NSString *aSectionIndexString = [aName substringToIndex:1]; // Without UTF-16 support:
 
