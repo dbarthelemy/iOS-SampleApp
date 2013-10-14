@@ -39,6 +39,20 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     [[StationWebService sharedInstance] setDelegate:self];
+    
+    static dispatch_once_t onceToken;
+    if (([self.fetchedResultsController.fetchedObjects count] > 0) &&
+        (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)) {
+        dispatch_once(&onceToken, ^{
+            double delayInSeconds = 0.5;
+            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+                [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
+                                      atScrollPosition:UITableViewScrollPositionTop
+                                              animated:YES];
+            });
+        });
+    }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -61,20 +75,6 @@
 {
     [super viewDidAppear:animated];
     
-    static dispatch_once_t onceToken;
-    if (([self.fetchedResultsController.fetchedObjects count] > 0) &&
-        (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)) {
-        dispatch_once(&onceToken, ^{
-            double delayInSeconds = 0.5;
-            dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-            dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-                [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]
-                                      atScrollPosition:UITableViewScrollPositionTop
-                                              animated:YES];
-            });
-        });
-    }
-
     // Monitor Web Service status
     [[StationWebService sharedInstance] setDelegate:self];
 }
