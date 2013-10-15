@@ -57,6 +57,8 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+    [[StationWebService sharedInstance] setDelegate:self];
+
     MKCoordinateRegion initialRegion = MKCoordinateRegionMake(CLLocationCoordinate2DMake(43.610873, 3.876704),
                                                               MKCoordinateSpanMake(0.02, 0.02));
     [self.stationMapView setRegion:initialRegion animated:NO];

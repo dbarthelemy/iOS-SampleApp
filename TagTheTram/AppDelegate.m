@@ -38,8 +38,14 @@
     [self handleSettingBundle];
 
     UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
-    StationsViewController *controller = (StationsViewController *)navigationController.topViewController;
-    controller.managedObjectContext = self.managedObjectContext;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        StationsViewController *controller = (StationsViewController *)navigationController.topViewController;
+        controller.managedObjectContext = self.managedObjectContext;
+    }
+    else {
+        MapViewController *controller = (MapViewController *)navigationController.topViewController;
+        controller.managedObjectContext = self.managedObjectContext;
+    }
     return YES;
 }
 							

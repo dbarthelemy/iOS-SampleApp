@@ -41,8 +41,8 @@
     [[StationWebService sharedInstance] setDelegate:self];
     
     static dispatch_once_t onceToken;
-    if (([self.fetchedResultsController.fetchedObjects count] > 0) &&
-        (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)) {
+    if ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) &&
+        ([self.fetchedResultsController.fetchedObjects count] > 0)) {
         dispatch_once(&onceToken, ^{
             double delayInSeconds = 0.5;
             dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
