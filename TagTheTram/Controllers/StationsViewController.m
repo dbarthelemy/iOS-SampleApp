@@ -245,19 +245,32 @@
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
-    [self.tableView beginUpdates];
+    if (self.searchDisplayController.isActive) {
+        [self.searchDisplayController.searchResultsTableView beginUpdates];
+    }
+    else {
+        [self.tableView beginUpdates];
+    }
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
            atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
 {
+    UITableView *tableView;
+    if (self.searchDisplayController.isActive) {
+        tableView = self.searchDisplayController.searchResultsTableView;
+    }
+    else {
+        tableView = self.tableView;
+    }
+
     switch(type) {
         case NSFetchedResultsChangeInsert:
-            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
             break;
             
         case NSFetchedResultsChangeDelete:
-            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            [tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
             break;
     }
 }
@@ -266,7 +279,13 @@
        atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
       newIndexPath:(NSIndexPath *)newIndexPath
 {
-    UITableView *tableView = self.tableView;
+    UITableView *tableView;
+    if (self.searchDisplayController.isActive) {
+        tableView = self.searchDisplayController.searchResultsTableView;
+    }
+    else {
+        tableView = self.tableView;
+    }
     
     switch(type) {
         case NSFetchedResultsChangeInsert:
@@ -290,7 +309,12 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-    [self.tableView endUpdates];
+    if (self.searchDisplayController.isActive) {
+        [self.searchDisplayController.searchResultsTableView endUpdates];
+    }
+    else {
+        [self.tableView endUpdates];
+    }
 }
 
 /*
