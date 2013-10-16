@@ -396,6 +396,7 @@
 - (void)searchDisplayController:(UISearchDisplayController *)controller willShowSearchResultsTableView:(UITableView *)tableView
 {
     self.isSearchTableViewPresented = YES;
+    tableView.backgroundColor = [UIColor whiteColor];
 }
 
 - (void)searchDisplayController:(UISearchDisplayController *)controller didHideSearchResultsTableView:(UITableView *)tableView
