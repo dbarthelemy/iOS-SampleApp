@@ -31,6 +31,8 @@
     [_fetchedResultsController release];
     [_managedObjectContext release];
     [_networkAlertView release];
+    [_presentedInPopoverController release];
+    [_popoverControllerPresenter release];
     [super dealloc];
 }
 
@@ -179,6 +181,8 @@
         Station *aStation = [[self fetchedResultsController] objectAtIndexPath:indexPath];
         [[segue destinationViewController] setManagedObjectContext:self.managedObjectContext];
         [[segue destinationViewController] setTheStation:aStation];
+        [[segue destinationViewController] setPresentedInPopoverController:self.presentedInPopoverController];
+        [[segue destinationViewController] setPopoverControllerPresenter:self.popoverControllerPresenter];
     }
     else if ([[segue identifier] isEqualToString:@"showMap"]) {
         UINavigationController *navigationController = [segue destinationViewController];

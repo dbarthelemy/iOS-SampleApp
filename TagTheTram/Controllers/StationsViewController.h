@@ -13,6 +13,8 @@
 @interface StationsViewController : UITableViewController
 @property (retain, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (assign, nonatomic) MapViewController *mapViewController;
+@property (retain, nonatomic) UIPopoverController *presentedInPopoverController;
+@property (retain, nonatomic) UIBarButtonItem *popoverControllerPresenter;
 
 - (void)presentPhotosForStation:(Station *)station;
 @end

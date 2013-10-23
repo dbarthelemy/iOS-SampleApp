@@ -13,5 +13,7 @@
 @interface PhotosViewController : UITableViewController
 @property (retain, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (retain, nonatomic) Station *theStation;
+@property (retain, nonatomic) UIPopoverController *presentedInPopoverController;
+@property (retain, nonatomic) UIBarButtonItem *popoverControllerPresenter;
 
 @end

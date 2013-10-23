@@ -28,6 +28,8 @@
     [_fetchedResultsController release];
     [_managedObjectContext release];
     [_theStation release];
+    [_presentedInPopoverController release];
+    [_popoverControllerPresenter release];
     [super dealloc];
 }
 
@@ -39,12 +41,22 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-	return UIInterfaceOrientationIsPortrait(interfaceOrientation);
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return UIInterfaceOrientationIsLandscape(interfaceOrientation);
+    }
+    else {
+        return UIInterfaceOrientationIsPortrait(interfaceOrientation);
+    }
 }
 
 - (NSUInteger)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskPortrait;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        return UIInterfaceOrientationMaskLandscape;
+    }
+    else {
+        return UIInterfaceOrientationMaskPortrait;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -147,6 +159,17 @@
     QLPreviewController *previewController = [[QLPreviewController alloc] init];
     previewController.dataSource = self;
     previewController.delegate = self;
+    
+    // Close the popover
+    if (self.presentedInPopoverController) {
+        [self.presentedInPopoverController dismissPopoverAnimated:YES];
+        self.presentedInPopoverController = nil;
+        
+        if (self.popoverControllerPresenter) {
+            self.popoverControllerPresenter.enabled = YES;
+            self.popoverControllerPresenter = nil;
+        }
+    }
     
     // start previewing the document at the current section index
     previewController.currentPreviewItemIndex = indexPath.row;

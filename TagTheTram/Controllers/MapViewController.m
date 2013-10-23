@@ -163,12 +163,17 @@
             self.searchPopoverController.delegate = self;
             self.searchButton.enabled = NO;
         }
+        else {
+            self.searchPopoverController = nil;
+        }
         
         UINavigationController *navigationController = [segue destinationViewController];
         StationsViewController *destinationViewController = (StationsViewController *)navigationController.topViewController;
         [destinationViewController setMapViewController:self];
         [destinationViewController setManagedObjectContext:self.managedObjectContext];
-        
+        [destinationViewController setPresentedInPopoverController:self.searchPopoverController];
+        [destinationViewController setPopoverControllerPresenter:self.searchButton];
+
         if (!sender) {
             [destinationViewController presentPhotosForStation:self.station];
         }
