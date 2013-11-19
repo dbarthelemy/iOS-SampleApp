@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "StationsViewController.h"
 #import "StationWebService.h"
+#import <Crashlytics/Crashlytics.h>
 
 @interface AppDelegate ()
 @property (nonatomic, retain) NSURL *applicationMediasDirectory;
@@ -35,6 +36,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    [Crashlytics startWithAPIKey:@"508e94b3e67f7731eb98d96f4af8ef1e3bf887aa"];
+    
     [self handleSettingBundle];
 
     UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;

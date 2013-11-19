@@ -63,6 +63,7 @@
 		63EEC66517E3AF2C00409C50 /* thumbnail-picto@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 63EEC66317E3AF2C00409C50 /* thumbnail-picto@2x.png */; };
 		63EEC66717E3B64A00409C50 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 63EEC66617E3B64A00409C50 /* Settings.bundle */; };
 		63EEC66A17E3BB3500409C50 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 63EEC66917E3BB3500409C50 /* Photo.m */; };
+		63EFFEB9183BB95F00695E1C /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 63EFFEB8183BB95F00695E1C /* Crashlytics.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -141,6 +142,7 @@
 		63EEC66617E3B64A00409C50 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		63EEC66817E3BB3500409C50 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
 		63EEC66917E3BB3500409C50 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
+		63EFFEB8183BB95F00695E1C /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +156,7 @@
 				631F1BB917E0D64B00F124FD /* AssetsLibrary.framework in Frameworks */,
 				635E3F9B17E089B700DD4466 /* MobileCoreServices.framework in Frameworks */,
 				63297FF517DE624200EE3B7A /* UIKit.framework in Frameworks */,
+				63EFFEB9183BB95F00695E1C /* Crashlytics.framework in Frameworks */,
 				63297FF717DE624200EE3B7A /* Foundation.framework in Frameworks */,
 				63297FF917DE624200EE3B7A /* CoreGraphics.framework in Frameworks */,
 				63297FFB17DE624200EE3B7A /* CoreData.framework in Frameworks */,
@@ -183,6 +186,7 @@
 		63297FF317DE624200EE3B7A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				63EFFEB8183BB95F00695E1C /* Crashlytics.framework */,
 				63560FD617E4A7BB00693A47 /* CoreLocation.framework */,
 				63560FD417E49F5800693A47 /* MapKit.framework */,
 				632E8A9717E247FF00B078A4 /* QuickLook.framework */,
@@ -379,6 +383,7 @@
 				63297FED17DE624200EE3B7A /* Sources */,
 				63297FEE17DE624200EE3B7A /* Frameworks */,
 				63297FEF17DE624200EE3B7A /* Resources */,
+				63EFFEB7183BB6FF00695E1C /* Crashlytics */,
 			);
 			buildRules = (
 			);
@@ -463,6 +468,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		63EFFEB7183BB6FF00695E1C /* Crashlytics */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Crashlytics;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run 508e94b3e67f7731eb98d96f4af8ef1e3bf887aa";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		63297FED17DE624200EE3B7A /* Sources */ = {
@@ -581,6 +603,10 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/David/Developer/Bitbucket/TagTheTram,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TagTheTram/TagTheTram-Prefix.pch";
 				INFOPLIST_FILE = "TagTheTram/TagTheTram-Info.plist";
@@ -597,6 +623,10 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/David/Developer/Bitbucket/TagTheTram,
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TagTheTram/TagTheTram-Prefix.pch";
 				INFOPLIST_FILE = "TagTheTram/TagTheTram-Info.plist";
