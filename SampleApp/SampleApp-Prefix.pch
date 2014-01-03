@@ -1,0 +1,39 @@
+//
+// Prefix header for all source files of the 'SampleApp' target in the 'SampleApp' project
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_5_0
+#warning "This project uses features only available in iOS SDK 5.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+    #import <CoreData/CoreData.h>
+#endif
+
+// Debug Log
+#ifdef DEBUG
+#	define DLog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+#else
+#	define DLog(...)
+#endif
+
+// Always Log
+#define ALog(fmt, ...) NSLog((@"%s [Line %d] " fmt), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__);
+
+// App and Build version
+#define BUNDLE_APP_VERSION   [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]
+#define BUNDLE_BUILD_VERSION [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]
+
+// Directory to store the medias during the upload process
+#define kMediasDirectory @"Medias"
+
+// Web Service Request URL as a string
+#define kStationServerRequestUrlString @"http://modulaweb.fr/apitam/?request=getStopsList&fullInfos=1"
+
+// Fix the thumbnail size
+#define kMediaThumbnailWidth  64
+#define kMediaThumbnailHeight 64
